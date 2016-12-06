@@ -1,0 +1,307 @@
+
+#topMenuBar{
+	position: absolute;
+	top:0;
+	width: 100% - 200px;
+	height:43px;
+	background-color: #f8f8f8;
+	border-bottom:1px solid #e7e7e7;
+    border-radius: 4px;
+    text-align:left;
+    z-index: 10;
+    width: 100%;
+    right:0;
+}
+
+#topMenuBar select{
+    font-family: verdana;
+    height: 100%;
+    margin:0% 0%;
+    padding: 0;
+    position: absolute;
+    top:0;
+    width: 13%;
+    background-color: #F2F2F2;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-align: center;
+    border:0px solid;
+    cursor: pointer;
+    font-size:130%;
+
+}
+
+#topMenuBar option{
+     font-size:80%;
+     font-weight: lighter;
+
+}
+
+
+#langlongDiv{
+    background: lightgrey none repeat scroll 0 0;
+    display: inline-block;
+    height: 90%;
+    top: 0;
+    width: 18%;
+    z-index: 10;
+    border: 1px inset grey;
+    top:101%;
+    right: 0;
+    position: absolute;
+}
+#langlongDiv p{
+	font-size: 100%;
+	margin: 4%;
+	position: relative;
+}
+
+
+.dropDownMenu{
+    list-style: outside none none;
+    position: relative;
+    width: 15%;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: inline-block;
+    z-index:10;
+}
+.dropDownMenuBTN{
+    width: 100%;
+    height: 43px;
+    top: 0;
+    border: 0px solid grey;
+    cursor: pointer;
+    font-size:140%;
+    background-color: #F2F2F2;
+}
+.dropDownMenuBTN a{
+
+
+}
+.dropDownMenuList{
+    top: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    width: 100%;
+    background-color: white;
+    text-align: center; 
+    max-height: 850%;
+    overflow: auto;
+   /* max-height: 1320%; 
+    height:500%; */
+    overflow: auto;
+    z-index:10;
+}
+.dropDownMenuSubBTN{
+    cursor: pointer;
+    width: 100%;
+    border: 0px solid black;
+    font-size:95%;
+}
+.dropDownMenuList input{
+    font-family: verdana;
+    font-size: 80%;
+    height: 20px;
+    width: 97%;
+}
+.dropDownMenuList li{
+    padding: 0%;
+    border: 2px solid #FFFFFF;
+    margin:1%;
+    width:96%;
+  /*  border-top:1px solid white;
+    border-bottom:1px solid white; */
+}
+.dropDownMenuList li:hover{
+/*-webkit-box-shadow: 0px 0px 4px -1px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 4px -1px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 4px -1px rgba(0,0,0,0.75);
+*/
+}
+.dropDownMenuList ul{
+    background-color: white;
+    border-left:1px solid;
+    border-top:1px solid;
+    list-style-type: none;
+    font-size:70%;
+    left:200px;
+    margin:0;
+    padding:0;
+    position: absolute;
+    top:43px;
+    width:200px;
+}
+.dropDownMenuList p{
+    pointer-events: none;
+}
+.left{
+    float:left;
+    width:200px;
+}
+.right{
+    float:right;
+}
+#CityMenuBackLI{
+    bottom:0;
+    left:0;
+    width: 98%;
+    position: absolute;
+    margin: 1%;
+}
+
+#subTopMenu{
+    position: absolute;
+    top: 100%;
+    display: inline;
+}
+
+}
+#timeLine{
+    /* for ff ??? margin-top: 0.2%; */
+    padding: 0;
+    margin:0;
+    width: 45%;
+    z-index: 11;
+}
+@-moz-document url-prefix() {
+#timeLine{
+    /* for ff ??? margin-top: 0.2%; */
+    padding: 0;
+    margin: 2px 0 0;
+    width: 45%;
+    z-index: 11;
+}
+}
+/*
+@-moz-document url-prefix() {
+     #timeLine{
+        float: left;
+         
+        padding: 0;
+        width: 45%;
+        z-index: 11;
+    }
+}
+*/
+#timeLine p{
+    display: inline;
+    font-size: 135%;
+    margin: auto 0;
+    width: 5%;
+}
+
+#timeLine input{
+    height: 100%;
+    width: 100%;
+    margin: 0 0 0 0;
+}
+
+
+#Info-Body{
+    background-color: black;
+    color: white;
+    width: 55%;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top:0;
+}
+#Info-Body div{
+    float: left;
+    font-size: 65%;
+    padding: 2px 1px;
+}
+#Info-Body p{
+    margin:0;
+    padding:0;
+}
+#dropSubDiv{
+    position: absolute;
+    border-left:1px solid grey;
+    background-color: black;
+    color:lightgrey;
+    width: 24%;
+    bottom:0;
+    padding:0;
+    margin:0;
+    max-height:34%;
+    overflow: auto;
+    left:200px;
+
+}
+#dropSubDiv table{
+  
+}
+#dropSubDiv tr{
+
+}
+#dropSubDiv p{
+    font-size: 55%;
+}
+#dropSubDiv input[type=text]{
+    width: 100%;
+    border:0px solid;
+    font-size: 83%;
+    background-color: lightgrey;
+    color:black;
+}
+#dsmInput{
+    width:90%;
+}
+
+
+#subDropMenuControl button{
+    margin:1%;
+    width:30%;
+}
+
+#statsDiv{
+    background-color: black;
+    color:black;
+    bottom:0;
+    font-family: verdana;
+    font-size: 80%;
+    left:0;
+    position: absolute;
+    z-index: 10;
+    max-height: 33%;
+    overflow: auto;
+}
+#statsDiv table{
+    width: 100%;
+}
+#statsDiv td{
+    height: 100%;
+}
+#statsDiv tr{
+    background-color: lightgrey;
+    font-size: 70%;
+
+}
+#statsDiv p{
+    margin:3px;
+}
+#buildings-InfoTable{
+    color: black;
+    font-size: 73%;
+    position: absolute;
+    right: 0;
+    max-height: 1000%;
+    top: 20px;
+    width: 32%;
+    overflow: auto;
+}
+#buildings-InfoTable table{
+    width: 100%;
+}
+#buildings-InfoTable td{
+    background-color: lightgrey;
+}
+
+#helpBTN{
+    border: 0;
+}

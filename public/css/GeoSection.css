@@ -1,0 +1,73 @@
+    #groundinteractMenu{
+	position: absolute;
+	top:7%;
+	right: 0;
+	/* background-color: #66FF66;   */
+	border-left:1px solid black;
+    z-index:10;
+
+}
+#groundinteractDiv{
+    z-index: 10;
+}
+#groundinteractMenu ul{
+    list-style: none;
+    margin: 20px 0 0 0;
+    padding: 0;
+    text-align: left;
+}
+
+#groundinteractMenu ul li{
+	padding:5%;
+    color:white;
+}
+#groundinteractMenu ul li:hover{
+	background-color: lightblue;
+	cursor:context-menu;
+}
+
+
+
+#addGeoElement{
+    bottom: 0;
+    height: 50%;
+    position: absolute;
+    width: 15%;
+    background-color: white;
+    display:none;
+    overflow-y: auto;
+    left:200px;
+}
+#addGeoElement h2{
+    font-family: verdana;
+    font-size: 114%;	
+    margin: 0 0 5%;
+    font-weight: normal;
+}
+#addGeoElement textarea{
+    width: 90%;
+    height: 18px;
+}
+#addGeoElement input{
+    height:28px;
+    width: 33%;
+    float:left;
+    font-family: verdana;
+    color:white;
+}
+#addGeoElement p{
+    color:#666666;
+}
+#dropObjs{
+    width: 90%;
+    border-top: 1px solid lightgray;
+    border-bottom:1px solid lightgrey;
+    margin: 5%;
+    background-color: white;
+}
+#dropObjs p {
+    color:grey;
+}
+#addCityobjBody{
+	
+}

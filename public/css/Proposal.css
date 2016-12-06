@@ -1,0 +1,199 @@
+#Proposals-List{
+    background-color: white;
+    bottom: 0;
+    height: 28%;
+    position: absolute;
+    left: 200px;
+    width: 85%;
+}
+#Proposals-List ul{
+    float: left;
+    height: 100%;
+    margin: 0;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding: 0;
+    position: relative;
+    white-space: nowrap;
+    width: 100%;
+}
+#Proposals-List li{
+    display: inline-block;
+    height: 100%;
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 15%;
+}
+#proposalInfo{
+    background-color: grey;
+    display: block;
+    height: 15%;
+    margin-top: 0;
+    position: relative;
+    width: 100%;
+}
+#proposalInfo p{
+    margin: 0;
+    padding: 1% 0;
+    font-size: 70%;
+}
+#proposalPreViewImg{
+    margin: 0;
+    max-height: 65%;
+    max-width: 100%;
+}
+
+#Proposals-List input{
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    margin:0;
+    padding:1%;
+}
+
+
+
+
+#ProposalsADDObj-Body{
+    background-color: white;
+    bottom: 0%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 200px;
+    overflow: auto;
+    z-index:10;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+}
+#ProposalsADDObj-Body div{
+    overflow: auto;
+    overflow: hidden;
+}
+#proposalNameDiv{
+    background-color: grey;
+    height: 10%;
+    margin: 0;
+    padding: 0;
+}
+#proposalNameDiv p{
+    margin: 4% 0;
+    font-weight: normal;
+    padding: 1%;
+    color: white;
+
+}
+#ProposalsADDObj-Body h2 {
+    margin:0 0 5%;
+}
+#ProposalsADDObj-Body input[type=text]{
+	font-size: 100%;
+    resize: none;
+    white-space: pre;
+    width: 90%;
+    color:black;
+    background-color: lightgrey;
+    border:0px solid;
+    font-family: verdana;
+    margin:0 0 5%;
+
+}
+#ProposalsADDObj-Body textarea::-webkit-scrollbar { 
+    display: none; 
+}
+#ProposalsADDObj-Body textarea::-moz-scrollbar { 
+    display: none; 
+}
+#ProposalsADDObj-Body input[type=button]{
+    height: 28px;
+    width: 33%;
+    float: left;
+    border: 0px solid;
+    color: white;
+}
+#addProposalBtnDiv{
+	width: 100%;
+	position: relative;
+}
+#addProposalBtnDiv input{
+    float: left;
+    font-size: 80%;
+    width: 33%;
+    font-family:verdana; 
+    color:white;
+}
+#dropPreViewImg{
+    height: 15%;
+    position: relative;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+}
+#dropPreViewImg img{
+	height:100%;
+}
+#dropPreViewImg p{
+	font-size: 80%;
+    color: grey;
+}
+#dropboxDiv{
+    height: 15%;
+    position: relative;
+    border: 1px solid grey;
+}
+#dropboxDiv div{
+    border: 0px solid grey;
+    overflow: hidden;
+}
+#dropboxDiv p{
+	font-size: 80%;
+    color: grey;
+}
+#proposalMenu{
+    position: absolute;
+    right: 0;
+    bottom: 28%;
+    height: 51%;
+    width: 15%;
+    background-color: white;  
+    overflow: auto;
+}
+#proposalMenu button{
+    width: 100%;
+    height:15%;
+    font-family: verdana;
+    font-size: 90%;
+
+}
+#hListDiv{
+    display: none;
+    border-top:1px solid lightgrey;
+    border-bottom:1px solid lightgrey;
+    color:grey;
+}
+
+#hListDiv label{
+    width: 100%;
+    height: 10%;
+}
+#hListDiv ul{
+    height: 90%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    list-style-type: none;
+}
+#hListDiv li{
+    border: 1px groove grey;
+    padding: 5%;
+}
+#hListDiv input{
+    float: left;
+}
+#hListDiv p{
+    margin: 0;
+    padding: 0;
+}

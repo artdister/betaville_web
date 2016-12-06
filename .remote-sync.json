@@ -1,0 +1,13 @@
+{
+  "transport": "ftp",
+  "uploadOnSave": true,
+  "useAtomicWrites": false,
+  "deleteLocal": false,
+  "hostname": "192.168.0.19",
+  "ignore": [
+  ],
+  "watch": [],
+  "username": "root",
+  "target": "quickstart",
+  "port": ""
+}

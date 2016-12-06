@@ -1,0 +1,95 @@
+//Top Menu Bar
+var transTMB = {
+	"objects":"objets",
+	"proposals":"propos",
+	"locations":"endroits",
+	"Home":"accueil",
+	"logout":"déconnecter",
+	"guest":"s'enregistrer",
+	"stats" : "stats"
+};
+//Top Menu sub Menu
+var transTMBS = {
+	"url": "URL: ",
+	"position": "Position: ",
+	"atli": "Atli: ",
+	"author": "auteur: ",
+	"edit": "éditable",
+	"remove": "cacher"
+
+
+}
+// Geo Menu
+var transGM = {
+
+	"addGeoPos": "nouvel endroit",
+	"addPropo" : "ajouter propos",
+	"addBuild": "ajouter objet"
+}
+// Add Geo Position
+var transAGP = {
+
+	"insideText":"nom",
+	"AddGeoPosition":"nouvel endroit",
+	"GeoPositionName":"nom de l'endroit",
+	"AddGeoPositionBTN": "confirm",
+	"uploadsuccess": "réussite",
+};
+// add Proposal
+var transAP ={
+
+	"AddProposal":"ajouter propos",
+	"insideText":"nom du propos",
+	"confirmBTN": "confirm"
+
+}
+// Add Building Object
+var transABO = {
+
+	"insideText":"nom du objet",
+	"AddBuilding": "ajouter objet",
+	"dropObjHere": "Déposer fichier modèle ici",
+	"dropTextureHere": "Drop texture Here",
+	"Load": "charger",
+	"Save":"sauver"
+
+}
+// Comment Section
+var transCS = {
+	"placeholder": "Message",
+	"public" : "Public"
+
+}
+// meta Data (not working)
+var transMetaObj = {
+
+	"name" : "nom",
+	"filename" : "fichier",
+	"dateuploaded" : "date",
+	"creator" : "auteur",
+	"editable" : "éditable",
+	"url" : "url"
+}
+
+// Proposal Section
+var transPS = {
+	"modelnametext" :"nom du propos objet",
+	"dropImg" : "Déposer image vignette ici",
+	"dropObj" : "Déposer fichier modèle ici",
+	"Load": "charger",
+	"Save":"sauver",
+	"hide": "cacher",
+	"remove": "enlever",
+	"show": "montrer",
+	"hideObjs": "objets à cacher",
+	"uploadsuccess": "réussite",
+	"missedImgORobj" :"Pre view Image or Collada is missed"
+}
+
+//Controll on object add
+var transCNTR = {
+	"transform": "déplacer",
+	"rotate" : "rotation",
+	"scale": "échelle"
+
+}

@@ -1,0 +1,96 @@
+//Top Menu Bar
+var transTMB = {
+	"objects":"objects ",
+	"proposals":"proposals",
+	"locations":"locations",
+	"Home":"Home",
+	"logout":"Logout",
+	"guest":"guest",
+	"stats" : "stats",
+	"geojson" : "geoJSON"
+};
+//Top Menu sub Menu
+var transTMBS = {
+	"url": "URL: ",
+	"position": "Position: ",
+	"atli": "Atli: ",
+	"author": "Author: ",
+	"edit": "Edit",
+	"remove": "delete"
+
+}
+// Geo Menu
+var transGM = {
+
+	"addGeoPos": "Add location pin",
+	"addPropo" : "Add Proposal",
+	"addBuild": "Add Building"
+	
+}
+// Add Geo Position
+var transAGP = {
+
+	"insideText":"Name",
+	"AddGeoPosition":"Add location pin ",
+	"GeoPositionName":"location pin Name",
+	"AddGeoPositionBTN": "Add pin",
+	"uploadsuccess": "success",
+};
+// add Proposal
+var transAP ={
+
+	"AddProposal":"Add Proposal",
+	"insideText":"Name",
+	"confirmBTN": "confirm"
+
+}
+// Add Building Object
+var transABO = {
+
+	"insideText":"Name",
+	"AddBuilding": "Add Building",
+	"dropObjHere": "Drop Object Here",
+	"dropTextureHere": "Drop texture Here",
+	"Load": "load",
+	"Save":"save"
+
+}
+// Comment Section
+var transCS = {
+	"placeholder": "Message",
+	"public" : "Public"
+
+}
+
+var transMetaObj = {
+
+	"name" : "Name",
+	"filename" : "File name",
+	"dateuploaded" : "Date uploaded",
+	"creator" : "Creator",
+	"editable" : "Editable",
+	"url" : "url"
+}
+
+// Proposal Section
+var transPS = {
+	"modelnametext" :"Model name text field",
+	"dropImg" : "Drop Pre-View Image",
+	"dropObj" : "Drop model here",
+	"Load": "load",
+	"Save":"save",
+	"hide": "remove proposal",
+	"remove": "remove",
+	"show": "show proposal",
+	"hideObjs": "'Hidden Buildings",
+	"uploadsuccess": "success",
+	"missedImgORobj" :"Pre view Image or Collada is missed"
+}
+
+//Controll on object add
+var transCNTR = {
+	"transform": "Transform",
+	"rotate" : "Rotate",
+	"scale": "Scale"
+
+}

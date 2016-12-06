@@ -1,0 +1,89 @@
+#Comments-Body{
+    height: 65%;
+    left: 0;
+    position: absolute;
+    top: 7%;
+    width: 200px;
+    display: none;
+    z-index:10;
+}
+#commentsInputDiv{
+    background-color: darkgrey;
+    height: 35%;
+    width: 100%;
+    position: relative;
+
+}
+#commentsInputDiv p{
+    font-family: verdana;
+    font-size: 100%;
+    margin: 1%;
+    height: 25%;
+    padding: 0;
+    width: 100%;
+}
+#commentsInputDiv textarea{
+    background-color: black;
+    color: white;
+    height: 70%;
+    margin: 0;
+    width: 97%;
+    border: 0px solid;
+    resize: none;
+    font-family:verdana;
+    font-size:75%;
+}
+#commentsInputDiv input{
+    float: right;
+    margin: -15% 7% 0;
+    position: relative;
+    width: 35%;
+    color:white;
+}
+#CommentsDiv{
+    height: 65%;
+    overflow-y: scroll;
+    width: 100%;
+    z-index: 11;
+    background-color: white;
+    box-shadow: 0 0 0;
+}
+#commentContainer{
+    border-bottom: 1px solid grey;
+    box-shadow: 0 0 0 0;
+    padding:1%;
+}
+#commentContainer p {
+	font-family: verdana;
+}
+#commentUser{
+    color: grey;
+    font-size: 95%;
+}
+#commentText{
+    box-shadow: 0 0 0 0;
+    padding: 0;
+    font-size: 75%;
+}
+#metaTableDiv{
+    background-color: black;
+    color: white;
+    height: 40%;
+    overflow:auto;
+    padding: 4% 0;
+}
+#metaTableDiv table{
+
+}
+#metaTableDiv tr{
+
+}
+#metaTableDiv td{
+
+}
+#metaTableDiv p{
+    color:#666666;
+    margin:0;
+    padding: 0;
+    font-size: 70%;
+}
