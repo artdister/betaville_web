@@ -30,6 +30,7 @@ class ProposalsRepository
 
     }
 
+    //get all proposals
     public function getAll()
     {
 
@@ -41,6 +42,7 @@ class ProposalsRepository
         */
     }
 
+    //get proposals via city ID
     public function getProposalByParentIndex($i){
 
         $out = Proposals::where('city_id' , $i)->where('onscene' , true)->get();
@@ -66,6 +68,7 @@ class ProposalsRepository
 */
     }
 
+    //add proposal entry to DB
     public function addProposal($data){
 
         $proposal = new Proposals();
@@ -80,6 +83,8 @@ class ProposalsRepository
 
 
     }
+
+    //add proposal object
     public function addProposalObject($data, $objsrc, $imgsrc){
 
         $proposalObj = new Proposal_objects();
@@ -117,6 +122,8 @@ class ProposalsRepository
 
 
     }
+
+    //get proposal objects via proposal ID
     public function getProposalsObjectsByParentId($i){
         $out = Proposal_objects::where('proposal_id' , $i)->where('onscene' , true)->get();
 
@@ -143,6 +150,7 @@ class ProposalsRepository
 */
     }
 
+    //move proposal to trash
     public function moveProposalToTrashByid($i){
 
 
@@ -157,7 +165,7 @@ class ProposalsRepository
 
     }
 
-
+    //move proposal object to trash
     public function moveBuildingToTrashByid($i){
         $trash = DB::table('proposal_objects_trash');
 
@@ -193,6 +201,8 @@ class ProposalsRepository
         return $file;
 
     }
+
+    //get proposal trash list
     public function getBuildingFromTrash($i){
         $pId = Proposals::where('city_id' , $i)->value('id');
 

@@ -1,3 +1,6 @@
+/*
+*   Manage the Terrain 
+*/
 function GeoGround(dataJSON){
 
        // console.log(loadingData['loadData']['data']);
@@ -32,7 +35,7 @@ function GeoGround(dataJSON){
         this.terrain = new Terrain();
 
 
-
+        //create new instances for loading GIS data
         this.stats = new geoStatsLoader();
         this.objects = new geoObjectLoader();
         this.lines = new geoJSONLineLoader();
@@ -69,15 +72,17 @@ function GeoGround(dataJSON){
 
 }
 
+//set the 'transformToOrigin' via the terrains center
 GeoGround.prototype.setTransformToorigin = function(centerVec){
 
     this.transformToOrigin.x = centerVec.x;
     this.transformToOrigin.z = centerVec.z;
 }
 
+//calculate the high on a point
 GeoGround.prototype.getHight = function(array){
 
-
+    //a up and down ray fired
     this.ray.upRay.set(this.ray.orignVec, this.ray.dirupVec);
     this.ray.downRay.set(this.ray.orignVec, this.ray.dirdownVec);
 
@@ -93,7 +98,7 @@ GeoGround.prototype.getHight = function(array){
     var interDwn = this.ray.downRay.intersectObject(thatground.terrain.plane, true);
 
 
-
+    //if one of the rays hit the terrain set return the hight on this position
     if(interUp.length > 0){
        var h = interUp[0].point.y;         
     }else

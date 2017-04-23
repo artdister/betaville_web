@@ -33,7 +33,7 @@ Route::controllers([
 |
 */
 
-
+//Routes to catch the request, comming from the frontend
 
 Route::group(['middleware' => 'web'], function () {
 	Route::auth();

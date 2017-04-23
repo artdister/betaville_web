@@ -32,6 +32,7 @@ class CommentRepository
 
     }
 
+    //get building comment from DB
     public function getByBuildId($i){
 
         $out = Building_comments::where('building_id' , $i)->get();
@@ -52,6 +53,7 @@ class CommentRepository
     */
     }
 
+    //add building comment to DB
     public function addComment($data){
         
         $buildComment = new Building_comments();
@@ -76,6 +78,7 @@ class CommentRepository
     */
     }
 
+    //get proposal object comment via ID
     public function getProposalObjectCommentsbyparentID($i){
         $out = Proposal_object_comments::where('proposal_object_id' , $i)->get();
 
@@ -93,6 +96,7 @@ class CommentRepository
         */
     }
 
+    //addd pproposal comment to DB
     public function addProposalComment($data){
 
         $proposalbuildComment = new Proposal_object_comments();
@@ -118,6 +122,8 @@ class CommentRepository
 */
         
     }
+
+    //get loacion pin comments via ID
     public function getGeoPositionComments($i){
         $out = Geo_Position_comments::where('geo_position_id' , $i)->get();
 
@@ -131,6 +137,8 @@ class CommentRepository
         return $out;
         
     }
+
+    //add locaion pin comment
     public function addGeoPositionComments($data){
         $geoPositionComment = new Geo_Position_comments();
         $geoPositionComment->geo_position_id = $data['parentID'];

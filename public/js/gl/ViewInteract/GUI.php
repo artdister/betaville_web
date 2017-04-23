@@ -1,4 +1,7 @@
 <script>
+/*
+*	manage the UI elements
+*/
 function GUI(){
 
 	this.proposalObjPick = false;
@@ -9,8 +12,9 @@ function GUI(){
 	document.body.appendChild(this.guiDiv);
 	thatGUI = this;
 		
-	new TopMenuBar();
+	new TopMenuBar();	
 	
+	//check user role
 	if(loadingData['user'].role != undefined){
 		if(loadingData['user'].role == 0){
 			this.loadOrdinaryGUI();
@@ -24,6 +28,7 @@ function GUI(){
 	}else{
 		this.loadGuestGUI();
 	}
+	//update inforbar
 	thisCore.control.addEventListener( 'change', this.updateInfo );
 	/*
 	console.log(<?php Auth::check()?>);
@@ -39,6 +44,8 @@ function GUI(){
 	<?php } ?>
 */
 }
+
+//load UI for guests
 GUI.prototype.loadGuestGUI = function(){
 	console.log("guest");
 	this.commetnSec = new CommentSection();
@@ -52,6 +59,7 @@ GUI.prototype.loadGuestGUI = function(){
 	this.guiDiv.appendChild(this.groundSec.groundinteractMenu);
 }
 
+//load UI for ordinary
 GUI.prototype.loadOrdinaryGUI = function(){
 	console.log("ordinary");
 	this.commetnSec = new CommentSection();
@@ -67,6 +75,7 @@ GUI.prototype.loadOrdinaryGUI = function(){
 	this.guiDiv.appendChild(this.groundSec.groundinteractDiv);
 }
 
+//load UI for moderator
 GUI.prototype.loadModeratorGUI = function(){
 	console.log("moderator");
 	this.commetnSec = new CommentSection();
@@ -85,7 +94,7 @@ GUI.prototype.loadModeratorGUI = function(){
 
 
 
-
+//load comment section
 GUI.prototype.loadComments = function(parentObjName,list){
 
 						thatGUI.pickerBuildID = parentObjName.userData.id;
@@ -107,6 +116,7 @@ GUI.prototype.loadComments = function(parentObjName,list){
 					thatGUI.commetnSec.CommentsBody.style.display = "block";
 }
 
+//load proposal section
 GUI.prototype.loadProposals = function(json){
 	this.proposalSec.clearProposals();
 	this.openProposalList = json;
@@ -124,6 +134,8 @@ GUI.prototype.loadProposals = function(json){
 	}
 	
 }
+
+//handle buildings on scene edit section
 GUI.prototype.handleControlCheck = function(e){
 
 
@@ -157,6 +169,7 @@ GUI.prototype.handleControlCheck = function(e){
 	}
 }
 
+//handle the user action with the terrain open menu
 GUI.prototype.setGroundInteractToScene = function( obj){
 
 		if(thisCore.scene.getObjectByName('geoClickPosMarker')){
@@ -194,6 +207,7 @@ GUI.prototype.setGroundInteractToScene = function( obj){
 	
 }
 
+//handle the user action with the terrain close menu
 GUI.prototype.hideGroundInteract = function(){
 	if(thisCore.scene.getObjectByName('geoClickPosMarker')){
 		var objToremove = thisCore.scene.getObjectByName('geoClickPosMarker');
@@ -216,7 +230,7 @@ GUI.prototype.hideGroundInteract = function(){
 	
 }
 
-
+//update the information about the picked model
 GUI.prototype.updateInfo = function(obj){
 
 	if(objLoad.addProposalObj["bbox"]){
@@ -229,6 +243,7 @@ GUI.prototype.updateInfo = function(obj){
 
 }
 
+//clear all information
 GUI.prototype.clearInfo = function(){
 	thatTopMenuBar.clearInfoSection();
 }

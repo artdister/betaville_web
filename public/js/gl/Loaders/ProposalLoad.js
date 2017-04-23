@@ -1,3 +1,6 @@
+/*
+*	manage the proposals druing load
+*/
 function ProposalsLoad(){
 		propLoader = this;
 		this.propArray = new Array();
@@ -8,27 +11,30 @@ function ProposalsLoad(){
 		this.pickedMaterialColor = "rgb(255,255,255)";
 
 }
-
+//load the proposals and and push them to one array
 ProposalsLoad.prototype.load = function(obj, cb){
 
 
-
+				//create model
 				var geometry = new THREE.CylinderGeometry( 100, 0.1, 150, 4 );
 				var material = new THREE.MeshBasicMaterial( {color: this.defColor} );
 				var cylinder = new THREE.Mesh( geometry, material );
 
+				//convert wkt to js object
 				var wkt = new Wkt.Wkt();
 				var latlng = wkt.read(obj.position);
 
+				//convert lat/long to 3D scene coords.
 				var pos = new THREE.Vector3(latlng.components[0].x, 0 , latlng.components[0].y);
 				var newPos = thisCore.scaleCoordToTerrain(pos,"x/z");
 
 
-				//console.log("proposal", newPos, pos.coord);
+				//bring th eproposal in position
 				cylinder.position.x = newPos.x;
 				cylinder.position.y = parseFloat(obj.atli);
 				cylinder.position.z = newPos.z;
 
+				//add userData
 				cylinder.name = obj.name;
 				cylinder.userData.id = obj.id;
 				cylinder.userData.defMat = material;
@@ -41,7 +47,7 @@ ProposalsLoad.prototype.load = function(obj, cb){
 
 }
 
-
+//change proposal color on user interact
 ProposalsLoad.prototype.renderHightlightProposal = function(obj){
 
 	if( thatRay.pickedProposal == ""){

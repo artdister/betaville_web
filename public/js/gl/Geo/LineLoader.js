@@ -6,27 +6,28 @@ function LineLoader(){
         this.loaded = false;
 }
 
+//load data from Shape file (not in use)
 LineLoader.prototype.load = function(shpsrc){
  
     SHPParser.load(shpsrc + '.shp', thatground.city.shpLoad, "");
     DBFParser.load(shpsrc + '.dbf', thatground.city.dbfLoad, "");
 
 }
-
+//load the .shp file (not in use)
 LineLoader.prototype.shpLoad = function(shp){
     thatground.city.SHP = shp;
     if(typeof (thatground.city.SHP && thatground.city.DBF) == "object"){
         thatground.city.createTerrainArrayGeometry(thatground.city.SHP, thatground.city.DBF);
     }
 }
-
+//load the .dbf file (not in use)
 LineLoader.prototype.dbfLoad = function(dbf){
     thatground.city.DBF = dbf;
     if(typeof (thatground.city.SHP && thatground.city.DBF) == "object"){
         thatground.city.createTerrainArrayGeometry(thatground.city.SHP, thatground.city.DBF);
     }
 }
-
+//create the threejs object via shape files (not in use)
 LineLoader.prototype.createTerrainArrayGeometry = function(shp,dbf){
 
         var dbflist = dbf.records;
@@ -148,7 +149,7 @@ LineLoader.prototype.createTerrainArrayGeometry = function(shp,dbf){
         console.log( thatground.city.ObjArray[0]);
 }
 
-
+//create a threejs object via shape buffer (not in use)
 LineLoader.prototype.createTerrainArrayBufferGeometry = function(shp,dbf){
 
         var dbflist = dbf.records;

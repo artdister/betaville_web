@@ -29,12 +29,8 @@ class DataSetRepository
 
 
     }
-
+    //add a new entry to the dataset table
     public function addJSONtoDB($objName, $cityID,  $cityName){
-
-    	/* the Magic to write to DB the Objects */
-
-
       
  
     	$dataset = new Datasets();
@@ -47,7 +43,7 @@ class DataSetRepository
 
     }
 
-
+    //add json to DB old one via postgis c compiler
     public function addJSONtoDBJSONold($json, $varName, $ds_id){
 
         $jsonStr = '\''.json_encode($json->geometry).'\'' ;
@@ -87,7 +83,7 @@ class DataSetRepository
 
 
 
-
+    //add json to DB via PHP 
     public function addJSONtoDBJSON($json, $varName, $ds_id, $geoData, $cityName, $objname){
 
 
@@ -132,8 +128,7 @@ class DataSetRepository
            
 
 
-
-
+            //if geojson features geometry is a line
             if($json->features[$i]->geometry->type == "LineString" ){
                 $dataGeom = new DatasetsGeom();
                 $dataGeom->ds_id = intval($ds_id);
@@ -142,7 +137,7 @@ class DataSetRepository
                 for($p = 0; $p < sizeof($gcoords); $p++){
                     $pointSTR = 'ST_MakePoint(';   
                     
-                    $pointSTR .= implode(", " , $gcoords[$p]);
+                    $pointSTR .= implode(", " , $gcoords[$p]); // convert array to string 
                     $pointSTR .= ")";
                     $p++;
                     if( $p != sizeof($gcoords)){
@@ -165,6 +160,7 @@ class DataSetRepository
                 $dataGeom->save();
 
             }else
+             //if geojson features geometry is a polygon
             if($json->features[$i]->geometry->type == "Polygon") {
                 
 
@@ -190,17 +186,19 @@ class DataSetRepository
                     $outStr .= ")";
                     $dataGeom->geom = DB::raw("ST_MakePolygon(ST_GeomFromText('".$outStr."'))");
                     
+                     if(!empty($json->features[$i]->properties->tags->height)){
+
+                    $dataGeom->height = (string)$json->features[$i]->properties->tags->height;
+
+                }
+                
                     $dataGeom->osm_id = $json->features[$i]->id;
                     $dataGeom->save();
 
 
                 }
 
-                if(!empty($json->features[$i]->properties->tags->height)){
-
-                    $dataGeom->height = (string)$json->features[$i]->properties->tags->height;
-
-                }
+               
 
                 
             }
@@ -208,9 +206,11 @@ class DataSetRepository
              
         }
         
-      //  $cityName
-
+        //if json created successfully, create the json file
         if (json_decode($geoData) != null){
+            if (!file_exists('../storage/app/geoData/'.$cityName.'/citys/dataset/')) {
+                mkdir('../storage/app/geoData/'.$cityName.'/citys/dataset', 0777, true);
+            }
 
             $file = fopen('../storage/app/geoData/'.$cityName.'/citys/dataset/'.$objname.'.json','w+');
             fwrite($file, $geoData);
@@ -225,13 +225,14 @@ class DataSetRepository
 
 
 
-
+    //get all datasets from DB
     public function getDatasetByCityID($id){
 
         $out = Datasets::where('city_id' , $id)->get();
         return $out;
     }
 
+    //get geometries from DB
     public function getMapDataGeomByID($id){
 
 
@@ -279,7 +280,7 @@ class DataSetRepository
 
     }
 
-
+    //remove dataset from DB
     public function removeMapDataByID($id){
 
        $this->ds->where('id', $id)->delete();  

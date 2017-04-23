@@ -10,6 +10,8 @@ use App\Buildings;
 use Phaza\LaravelPostgis\Geometries\Point;
 use App;
 use Timezone;
+
+
 class BuildingsRepository
 {
     /**
@@ -29,13 +31,14 @@ class BuildingsRepository
 
     }
 
+    //get all building from table
     public function getAll()
     {
         return Buildings::where('onscene' , true)->get();
     }
 
 
-
+    //get building objects from tabel via ciyt ID 
     public function getObjectsByParentIndex($cityid){
 
         $out = Buildings::where('city_id' , $cityid)->where('onscene' , true)->get();
@@ -48,6 +51,7 @@ class BuildingsRepository
         for($i = 0; $i < sizeof($out); $i++){
             $out[$i]->position = $pos[$i];
 
+            //convert the rotation and quaternion 
             $out[$i]->rotation = $out[$i]->getRotation();
             $out[$i]->quaternion = $out[$i]->getQuaternion();
 
@@ -66,23 +70,27 @@ class BuildingsRepository
 
     }
 
-
+    //get buildings from DB via city ID and post codes
     public function getObjectsByParentIndexWithPostCodes($cityid, $post_codes){
 
 
         $out = array();
         $out['high'] = array();
         $out['low'] = array();
+        //if post code is available
         if($post_codes != false){
 
                 for($i = 0; $i < sizeof($post_codes);$i++){
 
+                        //get post code area center
                         $location = DB::table('datamap')
                                 ->select(DB::raw('ST_AsText(ST_Centroid(geom)) AS center'))
                                 ->addSelect(DB::raw('ST_AsText(geom) AS geom'))
                                 ->where('cfsauid' , $post_codes[$i])
                                 ->first();
-                        /*
+
+
+                        /* Experimental
                         $posD = DB::table('buildings')
                                 ->selectRaw("ST_Distance_Sphere(ST_AsText(position), '$location->center') <= 1 * 1609.34 AS position"  )
                                 ->where('city_id' , $cityid)->where('onscene' , true)
@@ -91,7 +99,7 @@ class BuildingsRepository
                         ST_Contains( '.$pCode[$j]->geom.', ST_GeomFromText('.$build[$i]->position.') )
                         */
 
-
+                        //get collada buildings inside the pot codes area
                         $buildHigh = Buildings::where('city_id' , $cityid)->where('onscene' , true)
                                 ->select(DB::raw('id, name, url, scale, atli, created_at, onscene, updated_at'))
                                 ->addSelect(DB::raw('ST_AsText(position) AS position'))
@@ -105,6 +113,7 @@ class BuildingsRepository
                                 //->where('ST_Distance_Sphere(ST_AsText(position), '.$location->center.' )', '<=', 1 * 1609.34  )
                                 ->get();
 
+                        //get vector buildings inside the post code area
                         $buildLow = DB::table('databuildings')->where('city_id' , $cityid)
                                 ->select(DB::raw('gid, z, elez, status'))
                                 ->addSelect(DB::raw('ST_AsGeoJSON(geom) AS geom'))
@@ -127,10 +136,11 @@ class BuildingsRepository
                         }
 
                 }
+        //if post code areas are not available
         }else{
 
 
-
+                //get all bulildings via the city ID
                 $out['high'] = Buildings::where('city_id' , $cityid )->where('onscene' , true)->get();
 
                 $pos = DB::table('buildings')
@@ -167,14 +177,14 @@ class BuildingsRepository
 
 
 
-
+    //move buildings to trash 
     public function moveBuildingToTrashByid($i){
         $trash = DB::table('buildings_trash');
 
         $file = Buildings::where('id' , $i)->first();
 
 
-
+        //create new buildings trash entry
         $trash->insert(
             [
                 'id'          => $file->id,
@@ -201,8 +211,11 @@ class BuildingsRepository
         return $file;
         //$this->db->where('id', $i)->delete()
     }
+
+    //add a city object
     public function addCityobj($data, $src){
 
+        //create ne entry
         $building = new Buildings();
         $building->city_id = $data['parentID'];
         $building->name = 'Build:'.$data['name'];
@@ -223,7 +236,7 @@ class BuildingsRepository
         $building->save();
 
 
-
+        //edit the position to use postgis
         $pos = DB::table('buildings')
                         ->select(DB::raw('ST_AsText(position) AS position'))
                         ->where('city_id' , $data['parentID'])->where('onscene' , true)
@@ -242,19 +255,20 @@ class BuildingsRepository
 
     }
 
-
+    //get all buildings from trash via city ID
     public function getBuildingFromTrash($i){
 
        return DB::table('buildings_trash')->where('city_id',$i)->get();
     }
 
+    //edit the buildings position
     public function buildingReplace($r)
     {
         $pos = explode(",",$r['position']);
         $rot = explode(",",$r['rotation']);
         $qua = explode(",",$r['quaternion']);
         $scl = explode(",",$r['scale']);
-
+        
         $building = Buildings::where('id' , $r['id'])->first();
 
         $building->position = new Point(round($pos[2],6), round($pos[0],6) );

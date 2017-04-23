@@ -1,5 +1,9 @@
+/*
+*	create and manage the top menu bar elements
+*/
 function TopMenuBar(){
 
+	//show username or 'guest'
 	if(loadingData['user'].length < 1){
 		this.user = "guest";
 		this.userSTR = transTMB['guest'];
@@ -29,12 +33,13 @@ function TopMenuBar(){
 	this.imgBanner = document.createElement("img");
 
 
-
+	//load the Betaville logo
 	//this.imgBanner.src = "/public/imgs/betaVilleLogo.gif";
-	
 	this.imgBanner.src = "../imgs/betaVilleLogo.gif";
 
+	//set style
 	this.imgBanner.style.height = this.topMenuBar.offsetHeight+'px';
+	//if logo is loaded load all other top menu bar elements
 	this.imgBanner.onload = function() {
 
 		thatTopMenuBar.createSubMenu();
@@ -53,10 +58,12 @@ function TopMenuBar(){
 	this.createLeftSideMenu();
 	this.createRightSideMenu();
 
-
+	//create a help frame
 	new HelpFrame();
+	//create the camera control
 	new CamControl();
-	
+		
+	//help button style
 	this.helpBTN = document.createElement("button");
 	this.helpBTN.id = "helpBTN";
 	this.helpBtnText = document.createTextNode("Help");       
@@ -86,12 +93,16 @@ function TopMenuBar(){
 
 
 }
+
+//update the FPS meter
 TopMenuBar.prototype.rendere = function(){
 	if(this.loaded == true){
 		this.stats.update();
 
 	}
 }
+
+//create the left Menu panel
 TopMenuBar.prototype.createSubMenu = function(){
 	this.subTopMenu = document.createElement('div');
 	this.subTopMenu.id = 'subTopMenu';
@@ -101,6 +112,7 @@ TopMenuBar.prototype.createSubMenu = function(){
 	this.topMenuBar.appendChild(this.subTopMenu);
 
 }
+//set the left menu panel width and position
 TopMenuBar.prototype.calcSubWidth = function(){
 
 	var w = window.innerWidth - 200; // get the width withoutLeftDropDownMenu
@@ -110,6 +122,8 @@ TopMenuBar.prototype.calcSubWidth = function(){
 	this.subTopMenu.style.left = mleft+'px';
 
 }
+
+//create FPS meter
 TopMenuBar.prototype.createFPSmeter = function(){
 
 	this.stats = new Stats();
@@ -120,6 +134,8 @@ TopMenuBar.prototype.createFPSmeter = function(){
 	this.topMenuBar.appendChild( this.stats.domElement );
 
 }
+
+//create time slider
 TopMenuBar.prototype.createDaySunPos = function(){
 	var tlDiv = document.createElement("div");
 	tlDiv.id = "timeLine";
@@ -150,6 +166,8 @@ TopMenuBar.prototype.createDaySunPos = function(){
 	this.subTopMenu.appendChild(tlDiv);
 	lightLib.calcSunPos();
 }
+
+//create the obejct information panel
 TopMenuBar.prototype.createObjInfoSection = function(){
 	this.infoBody = document.createElement('div');
 	this.infoBody.id = 'Info-Body';
@@ -174,6 +192,8 @@ TopMenuBar.prototype.createObjInfoSection = function(){
 	this.subTopMenu.appendChild(this.infoBody);
 
 }
+
+//create the buildings information panel
 TopMenuBar.prototype.createBuildingsInfo = function(){
 
 	var buildingsDiv = document.createElement('div');
@@ -188,6 +208,8 @@ TopMenuBar.prototype.createBuildingsInfo = function(){
 
 
 };
+
+//update the buildings information panel
 TopMenuBar.prototype.updateBuildingsInfo = function(s){
 
 	this.buildingsInfoTable.innerHTML = "";
@@ -212,6 +234,8 @@ TopMenuBar.prototype.updateBuildingsInfo = function(s){
 	}
 
 }
+
+//create the left side menu
 TopMenuBar.prototype.createLeftSideMenu = function(){
 
 	this.leftTopMenu = document.createElement('div');
@@ -474,7 +498,7 @@ TopMenuBar.prototype.createLeftSideMenu = function(){
 }
 
 
-
+//create the stats menu in the left menu panel
 TopMenuBar.prototype.createStatsMenu = function(){
 
 	this.statsTopMenu = document.createElement('li');
@@ -588,7 +612,7 @@ TopMenuBar.prototype.createStatsMenu = function(){
 	thatGUI.guiDiv.appendChild(thatground.stats.metaDiv);
 }
 
-
+//create objects menu
 TopMenuBar.prototype.createObjectMenu = function(){
 
 	this.objectsTopMenu = document.createElement('li');
@@ -668,6 +692,8 @@ TopMenuBar.prototype.createObjectMenu = function(){
 
 }
 
+
+//create right menu panel
 TopMenuBar.prototype.createRightSideMenu = function(){
 
 	this.rightTopMenu = document.createElement('div');
@@ -772,7 +798,7 @@ TopMenuBar.prototype.createRightSideMenu = function(){
 
 }
 
-
+//display positons information
 TopMenuBar.prototype.displayInfoSection = function(lanlat, utm, atli){
 	var hemi;
 
@@ -792,9 +818,7 @@ TopMenuBar.prototype.displayInfoSection = function(lanlat, utm, atli){
 }
 
 
-
-
-
+//close the sub menu
 TopMenuBar.prototype.closeSubMenu = function(elem){
 
 
@@ -803,6 +827,7 @@ TopMenuBar.prototype.closeSubMenu = function(elem){
 
 };
 
+//clear the information panel
 TopMenuBar.prototype.clearInfoSection = function(){
 	//hide Comments Body
 	this.longlatDiv.innerHTML = "";
@@ -810,6 +835,8 @@ TopMenuBar.prototype.clearInfoSection = function(){
 	this.utmDiv.innerHTML = "";
 
 }
+
+//show/hide user menu
 TopMenuBar.prototype.getUserDropDown = function(){
 
 	if(this.UserMenuUL.style.display == 'block'){
@@ -820,6 +847,8 @@ TopMenuBar.prototype.getUserDropDown = function(){
 
 	}
 }
+
+//show/hide stats menu
 TopMenuBar.prototype.getStatsDropDown = function(){
 
 	if(this.statsMenuUL.style.display == 'block'){
@@ -831,6 +860,7 @@ TopMenuBar.prototype.getStatsDropDown = function(){
 	}
 
 }
+//show/hide obejcts menu
 TopMenuBar.prototype.getobjectsDropDown = function(){
 
 	if(this.objectsMenuUL.style.display == 'block'){
@@ -843,6 +873,8 @@ TopMenuBar.prototype.getobjectsDropDown = function(){
 
 
 }
+
+//shows hide city menu (not used)
 TopMenuBar.prototype.getCityDropDown = function(){
 
 	if(this.citiesMenuUL.style.display == 'block'){
@@ -854,6 +886,7 @@ TopMenuBar.prototype.getCityDropDown = function(){
 	}
 }
 
+//load left sub menu
 TopMenuBar.prototype.loadLeftSub = function(elem){
 
 	var elemsList = elem.parentNode.parentNode.childNodes;

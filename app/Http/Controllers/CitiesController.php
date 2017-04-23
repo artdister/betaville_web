@@ -25,7 +25,7 @@ class CitiesController extends Controller
     }
 
 
-
+    //get all cities saved in the DB
 	public function getAllCities()
 	{	
 		
@@ -33,6 +33,7 @@ class CitiesController extends Controller
 
 	}
 
+	//get the city entry from DB via ID
 	public function getCityByIndex($i){
 		
 		$data = $this->cities->getDataByindex($i);
@@ -48,14 +49,17 @@ class CitiesController extends Controller
 
 	}
 
+	//get the terrain 
 	public function getCityMap($i){
 
 
-
+		//get the city data
 		$city = $this->cities->getDataByindex($i);
+
+		//load the terrain from storage
 		$citydata = Storage::disk('local')->get($city['city']->dataset);
 
-
+		//add the data to the view
 		$sections = view('menu.sub.cityMapList')
 							->with('citydata', $citydata )
 							->with('city', $city['city'])
@@ -66,6 +70,7 @@ class CitiesController extends Controller
 
 	}
 
+	//add Dataset entry to the DB
 	public function setMapData(Request $request){
 
 		//$json = json_decode($request->all()['json']);
@@ -78,6 +83,7 @@ class CitiesController extends Controller
 
 	}
 
+	//add dataset geometries entry to DB
 	public function setMapDataJSON(Request $request){
 
 		$json = json_decode($request->all()['json']);
@@ -94,7 +100,7 @@ class CitiesController extends Controller
 	}
 
 
-
+	//get dataset entry by ID
 	public function getMapDataByCityID($id){
 
 
@@ -102,6 +108,7 @@ class CitiesController extends Controller
 
 	}
 
+	//load the dataset.json file
 	public function getCityDSByIndex($i){
 
 		$data = $this->cities->getDataByindex($i);
@@ -114,11 +121,14 @@ class CitiesController extends Controller
 
 	}
 
+	//load the dataset from DB entry
 	public function getMapDataGeomByID($id){
 
 		return $this->dataset->getMapDataGeomByID($id);
 
 	}
+
+	//remove the dataset from DB 
 	public function removeMapDataByID($id){
 
 		return $this->dataset->removeMapDataByID($id);

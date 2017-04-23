@@ -1,3 +1,6 @@
+/*
+*	Mange the lights, create and setup them
+*/
 function Light(){
 
 /*	this.hemiLight = new THREE.HemisphereLight( 0x3399FF, 0xffff00, 1 );
@@ -10,12 +13,13 @@ function Light(){
 
 	lightLib = this;
 
-
+	//calculate the sky sphere size
 	this.skySphereSize = Math.sqrt(Math.pow(thatground.terrain.corner["maxXZ"].x,2) + Math.pow(thatground.terrain.corner["maxXZ"].z,2))
 	if(this.skySphereSize < 0){
 		this.skySphereSize = this.skySphereSize*(-1);
 	}
 
+	//create the sky sphere and setup it
 	this.sky = new THREE.Sky(this.skySphereSize);
 	this.sunpoint = new THREE.Vector3();
 	this.sunTempPos = new THREE.Vector3();
@@ -38,8 +42,8 @@ function Light(){
 
 
 
-
-
+	
+		//create the Hemisphere light
 		this.hemiLight = new THREE.HemisphereLight( 0xA6A6FF, 0x00000, 1.5);
        	this.hemiLight.color.setHSL( 0.0, 0.0, 0.75 );
 
@@ -49,8 +53,7 @@ function Light(){
         
            
 
-
-
+       		//create nd setup the shadow light
 			this.shadowLight = new THREE.DirectionalLight( 0x00000, 0.5);
 			this.shadowLight.position.set(this.sunpoint.x, this.sunpoint.y, this.sunpoint.z);
 			this.shadowLight.target.position.set(thatground.terrain.corner["maxXZ"].x/2, 
@@ -88,7 +91,7 @@ function Light(){
 
 
 }
-
+//calculate the sunposition on unserinteract with the time slidebar
 Light.prototype.calcSunPos = function(){
 
 
@@ -172,6 +175,7 @@ Light.prototype.calcSunPos = function(){
 		}
 
 }
+//the render function for light, claculatin the positions of lights
 Light.prototype.render = function(){
 	 this.shadowlightHelper.update();
 

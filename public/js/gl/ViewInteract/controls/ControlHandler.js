@@ -1,15 +1,18 @@
+/*
+*	manage the camera controll 
+*/
 function ControlHandler(domElem){
 	
 	thatControl = this;
 
-
+	//create new camera
 	this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, thatground.terrain.corner["maxXZ"].x+thatground.terrain.corner["maxXZ"].z+10000  );
 	if(objLoad.firstElem == ""){
 		//this.camera.position.set( thatground.terrain.corner["maxXZ"]["x"]/2, thatground.terrain.corner["maxXZ"]["y"]+15000|0, (thatground.terrain.corner["maxXZ"]["z"]/3)+150000|0);
-		this.camera.position.set( 0, thatground.terrain.corner["maxXZ"]["y"]+100000|0, -(thatground.terrain.corner["maxXZ"]["z"]*1.6)|0);
+		this.camera.position.set( 0, thatground.terrain.corner["maxXZ"]["y"]+100000, -(thatground.terrain.corner["maxXZ"]["z"]*1.6)|0);
 	
 	}else{
-		this.camera.position.set( objLoad.firstElem.x, objLoad.firstElem.y, objLoad.firstElem.z+3000);
+		this.camera.position.set( objLoad.firstElem.x, objLoad.firstElem.y+1000, objLoad.firstElem.z+3000);
 	}
 	this.camera.up = new THREE.Vector3(0,1,0);
 	this.camera.rotationAutoUpdate = false;
@@ -18,15 +21,16 @@ function ControlHandler(domElem){
 
 
 
-
+	//define camera look at point
 	this.tempPosVec = new THREE.Vector3();
 	if(objLoad.firstElem == ""){
 		//this.camLookAt =  new THREE.Vector3(thatground.terrain.corner["maxXZ"]["x"]/2, thatground.terrain.corner["maxXZ"]["y"], thatground.terrain.corner["maxXZ"]["z"]/2);
 		this.camLookAt =  new THREE.Vector3( 0 , 0, 0);
 	
 	}else{
-		this.camLookAt =  new THREE.Vector3(objLoad.firstElem.x, objLoad.firstElem.y+20000 ,objLoad.firstElem.z);
+		this.camLookAt =  new THREE.Vector3(objLoad.firstElem.x, objLoad.firstElem.y ,objLoad.firstElem.z);
 	}
+	//set camera mode
 	this.controls = new THREE.OrbitControls( this.camera, domElem );
 	//this.controls.damping = 0.2;
 	//this.controls = new THREE.TrackballControls( camera , domElem );
@@ -48,12 +52,12 @@ function ControlHandler(domElem){
 
 //render The Camera position
 ControlHandler.prototype.render = function(){
-	//this.getLookAtHight();	
+	//this.getLookAtHight();	->for Pasadena Pefromance
 	this.controls.target = this.camLookAt;
 	this.lookAtSphere.position.copy(this.camLookAt);
 
 	for(var i = 0; i < this.lines.length; i++){
-	//	this.lines[i].position.copy(this.camLookAt);
+		this.lines[i].position.copy(this.camLookAt);
 	}
 
 	
@@ -61,6 +65,7 @@ ControlHandler.prototype.render = function(){
 	this.controls.update();
 
 }
+//force the look at point to the terrain
 ControlHandler.prototype.getLookAtHight = function(){
 		
 	
@@ -120,7 +125,7 @@ ControlHandler.prototype.addDirectionslines = function(scene){
 	geometry = new THREE.Geometry();
 	geometry.vertices.push(
 		new THREE.Vector3( 0, 0, 0 ),
-		new THREE.Vector3( 50, 0, 0 )
+		new THREE.Vector3( 5, 0, 0 )
 	);
 	this.lines[0] = new THREE.Line( geometry, material );
 //------------- Y Line
@@ -130,7 +135,7 @@ ControlHandler.prototype.addDirectionslines = function(scene){
 	var geometry = new THREE.Geometry();
 	geometry.vertices.push(
 		new THREE.Vector3( 0, 0, 0 ),
-		new THREE.Vector3( 0, 200, 0 )
+		new THREE.Vector3( 0, 20, 0 )
 	);
 
 	this.lines[1] = new THREE.Line( geometry, material );
@@ -141,7 +146,7 @@ ControlHandler.prototype.addDirectionslines = function(scene){
 	geometry = new THREE.Geometry();
 	geometry.vertices.push(
 		new THREE.Vector3( 0, 0, 0 ),
-		new THREE.Vector3( 0, 0, 200 )
+		new THREE.Vector3( 0, 0, 20 )
 	);
 	this.lines[2] = new THREE.Line( geometry, material );
 

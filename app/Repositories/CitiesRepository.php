@@ -22,7 +22,7 @@ class CitiesRepository
         $this->locations = DB::table('datamap');
     }
 
-    
+    //get all city entrys
     public function getAll()
     {
         $out = Cities::select('id', 'name')->get();
@@ -33,6 +33,7 @@ class CitiesRepository
     */
     }
     
+    //get city data from DB via ID
     public function getDataByindex($i){
         $out = array();
         $out['city'] = Cities::where('id' , $i)->first();
@@ -59,6 +60,7 @@ class CitiesRepository
     */      
     }
     
+    //get city data by index
     public function getCitybyindex($i){
         
         $out = Cities::where('id' , $i)->get();

@@ -27,7 +27,7 @@ class LocationRepository
 
 
     }
-
+    //get localion area geometry
     public function getPosByID($id){
 
 
@@ -43,6 +43,8 @@ class LocationRepository
         return $pos->geom;
 
     }
+
+    //get all location area geometries via city ID
     public function getLocationsByCityID($id){
         
         $out = Locations::where('city_id', $id)->get();

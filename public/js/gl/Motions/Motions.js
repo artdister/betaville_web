@@ -1,3 +1,6 @@
+/*
+*	handle the UI navigation
+*/
 function Motions(){
 	motions = this; 
 	this.lookAtDir = new THREE.Vector2();
@@ -10,6 +13,7 @@ function Motions(){
 	this.rMatrix = new THREE.Matrix4();
 }
 
+//rotate camera on x/z
 Motions.prototype.rotateDeg = function(angle){
 
 
@@ -21,6 +25,7 @@ Motions.prototype.rotateDeg = function(angle){
 
 };
 
+//rotate camera vertical
 Motions.prototype.rotateVertic = function(angle){
 
 		angle = ( angle ) * (Math.PI/180); // Convert to radians
@@ -34,7 +39,7 @@ Motions.prototype.rotateVertic = function(angle){
 };
 
 
-
+//start interval on button press
 Motions.prototype.startInterval = function(){
 
 	var key = this.getAttribute('motion');
@@ -48,6 +53,7 @@ Motions.prototype.startInterval = function(){
 
 };
 
+//run the animati on 
 Motions.prototype.animation = function(){
 
 
@@ -122,15 +128,9 @@ Motions.prototype.animation = function(){
 	if(camControll.action == 'rUp'){
 
 		motions.runned = false;
-		//motions.lookAtHeigh += motions.dSpeed;
-		//hatControl.camLookAt.y += motions.dSpeed;
-motions.rotateDeg(90);		
-var q = new THREE.Quaternion();
-q.setFromAxisAngle( motions.rotate.normalize(), 12 * (Math.PI/180) );
-
-
-thatControl.camLookAt.applyQuaternion( q ).add(thatControl.camera.position);
-
+		motions.lookAtHeigh += motions.dSpeed;
+		thatControl.camLookAt.y += motions.dSpeed;
+		
 	/*	motions.rotateDeg(90);
 
 		motions.rotateVertic( 10 );
@@ -174,6 +174,7 @@ thatControl.camLookAt.applyQuaternion( q ).add(thatControl.camera.position);
 
 };
 
+//move the camera
 Motions.prototype.moveCam = function(){
 
 
@@ -189,6 +190,8 @@ Motions.prototype.moveCam = function(){
 
 
 };
+
+//handle the camera zoom
 Motions.prototype.zoom = function(d){
 		var cam2 = thatControl.camera.position.clone();
 		var lookAt2 = thatControl.camLookAt.clone();
@@ -226,6 +229,7 @@ Motions.prototype.zoom = function(d){
 	
 
 };
+//move lookat point
 Motions.prototype.rotateCam = function(){
 
 	thatControl.camLookAt.x = motions.rotate.x + thatControl.camera.position.x;
@@ -233,6 +237,8 @@ Motions.prototype.rotateCam = function(){
 	//thatControl.camLookAt.y = motions.rotate.y + thatControl.camera.position.y;		
 
 };
+
+//render the compass
 Motions.prototype.rendereCompass = function(){
 
 		//this.lookAtDir.x = thatControl.camLookAt.x - thatControl.camera.position.clone());
@@ -259,6 +265,8 @@ Motions.prototype.rendereCompass = function(){
 	//	console.log(thatControl.tempPosVec.x , thatControl.camLookAt.x);
 	
 };
+
+//rotate the compass via CSS
 Motions.prototype.rotateCompass = function(){
 
 	motions.lookAtDir.normalize();

@@ -26,6 +26,7 @@ class GeoPositionRepository
     	
 
     }
+    //get all locaion pins via city ID
     public function getGeoPositionByParent($i){
 
     	$out = Geo_Positions::where('city_id', $i)->where('onscene' , true)->get();
@@ -45,19 +46,21 @@ class GeoPositionRepository
         return $out;
     }
 
-	public function addGeoPosition($data){
-		$geopos = new Geo_Positions();
+    //add location pin to DB
+  	public function addGeoPosition($data){
+  		$geopos = new Geo_Positions();
 
-		$geopos->city_id	= $data['parentId'];
-		$geopos->name 		= $data['name'];
-		$geopos->author 	= $data['author'];
-		$geopos->atli 		= $data['atli'];
-		$geopos->position 	= new Point($data['lat'], $data['lng']);
+  		$geopos->city_id	= $data['parentId'];
+  		$geopos->name 		= $data['name'];
+  		$geopos->author 	= $data['author'];
+  		$geopos->atli 		= $data['atli'];
+  		$geopos->position 	= new Point($data['lat'], $data['lng']);
 
-		$geopos->save();
-		return $geopos;
-	}
+  		$geopos->save();
+  		return $geopos;
+  	}
 
+    //remove locaion pin
     public function moveGeoPositionToTrashByid($i){
 
       

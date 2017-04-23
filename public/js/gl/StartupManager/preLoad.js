@@ -1,4 +1,6 @@
-function preLoad(){
+/*
+*	prepare the data and start loading it on the loading screen
+*/function preLoad(){
 
 	preLoad = this;
 	this.manager = new THREE.LoadingManager();
@@ -35,6 +37,7 @@ function preLoad(){
 
 
 }
+//merge the data to a pipe which is loading during the loading screen
 preLoad.prototype.createPipe = function(json){
 
 	var pipe = new Array();
@@ -121,7 +124,7 @@ preLoad.prototype.createPipe = function(json){
 		}
 
 	}
-
+	//sort pipe by adding entrys to new array
 	for(var i = 0; i < pipe.length;i++){
 		if(pipe[i].type == 'terrain'){
 			out.push(pipe[i]);
@@ -149,9 +152,9 @@ preLoad.prototype.createPipe = function(json){
 	return out;
 
 }
+
+//load the terrain
 preLoad.prototype.loadTerrain = function(elem){
-
-
 
 
 	JSZipUtils.getBinaryContent('../../storage/app/'+elem.src, function(err,file){
@@ -170,6 +173,8 @@ preLoad.prototype.loadTerrain = function(elem){
 	})
 
 }
+
+//load the vector data
 preLoad.prototype.initDataSetLoad = function(){
 
 	preLoad.dsArray = new Array();
@@ -257,6 +262,8 @@ preLoad.prototype.initDataSetLoad = function(){
 
 
 }
+
+//load the data from the dataset.json
 preLoad.prototype.loadDataSet = function(){
 	if(preLoad.index <= preLoad.dsArray.length-1){
 
@@ -290,7 +297,7 @@ preLoad.prototype.loadDataSet = function(){
 
 	}
 }
-
+//prepare to load the buildings
 preLoad.prototype.initModelLoad = function(){
 
 	preLoad.moArray = new Array();
@@ -337,6 +344,7 @@ preLoad.prototype.initModelLoad = function(){
 
 }
 
+//load low def. models (vector buildings)
 preLoad.prototype.loadLDModels = function(){
 
 	preLoad.buildingsLow =  new geoObjectLoader();
@@ -360,6 +368,8 @@ preLoad.prototype.loadLDModels = function(){
 
 
 }
+
+//load high def. models (collada buildings)
 preLoad.prototype.loadHDModels = function(){
 
 	if(preLoad.indexHD <= preLoad.moArray['hd' ].length-1){
@@ -382,7 +392,7 @@ preLoad.prototype.loadHDModels = function(){
 
 }
 
-
+//add keyboard handlings
 preLoad.prototype.addWindowEvent = function(){
 
 	window.addEventListener("dragover",function(e){

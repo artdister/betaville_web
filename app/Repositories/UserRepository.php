@@ -22,12 +22,13 @@ class UserRepository
   
     }
     
-
+    //get the current user role
     public function getRole(){
 
         return  User::getRole();
     }
 
+    //get all users
     public function getAllUsers(){
         $out = User::all();
 
@@ -45,6 +46,7 @@ class UserRepository
     }
 
 
+    //edit the user 
     public function editUserMode($i){
         $out = User::where('id' , $i->id)
                 ->update([  'role' => $i->mode, 
@@ -59,6 +61,7 @@ class UserRepository
 
     }
 
+    //set the last time login date
     public function setLoginData($id){
         $totalLogins = User::where('id' , $id)->select('total_logins')->get();
     

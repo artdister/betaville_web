@@ -1,3 +1,6 @@
+/*
+*	Manage the Applications start, after all Objects created, they will here added to scene and the renderer starts
+*/
 function Core(){
 
 
@@ -52,7 +55,7 @@ function Core(){
 
 
 }
-
+//load all city proposals and location pins
 Core.prototype.loadProposals = function(){
 
 
@@ -74,7 +77,7 @@ Core.prototype.loadProposals = function(){
 
 
 }
-
+//create the scene and all nedded Objects.
 Core.prototype.initialised = function() {
 	this.init = true;
 	this.mouse = new MouseObj();
@@ -92,6 +95,8 @@ Core.prototype.initialised = function() {
 
 	this.scene.fog = new THREE.Fog( 0xFFFFFF, 100000, 1000000 );
 
+
+	//create and setup the theejs renderer
 	this.renderer = new THREE.WebGLRenderer( { 	alpha: true,
 												antialias: true,
 												logarithmicDepthBuffer: false,
@@ -110,6 +115,8 @@ Core.prototype.initialised = function() {
 	//this.renderer.setPixelRatio( window.devicePixelRatio );
 	this.renderer.setPixelRatio( 1 );
 
+
+	//add the renderer to the Container div
 	this.container.appendChild( this.renderer.domElement );
 	//this.renderer.domElement.style.position = 'absolute';
 	//this.renderer.domElement.style.zIndex = 1;
@@ -126,7 +133,7 @@ Core.prototype.initialised = function() {
 	document.body.appendChild( this.rendererStats.domElement );
 */
 
-
+	//add the lights to the scene
 	new Light();
 
 
@@ -135,17 +142,18 @@ Core.prototype.initialised = function() {
 
 
 
-
+	//create mousecontroler
 	new ControlHandler(this.renderer.domElement);
-
 	this.control = new THREE.TransformControls( thatControl.camera, this.renderer.domElement );
+
+	//create the GUI
 	new GUI();
 
 
 	var topMheight = thatTopMenuBar.topMenuBar.offsetHeight
 	this.renderer.setSize( window.innerWidth -200, window.innerHeight - topMheight );
 
-
+	//create the class for userinteractions
 	new Raycaster();
 
 
@@ -154,7 +162,7 @@ Core.prototype.initialised = function() {
 	//add the geo ground Plane
 	this.terrainScene.add(thatground.terrain.plane);
 
-	
+	//add GIS data
 	this.scene.add(thatground.lines.object);
 	this.scene.add(thatground.objects.object);
 
@@ -173,7 +181,7 @@ Core.prototype.initialised = function() {
 		this.scene.add(preLoad.buildingsLow.object);
 	}
 
-
+	//add the lookatpoint and 
 	this.scene.add( thatControl.lookAtSphere );
 	thatControl.addDirectionslines(this.scene);
 
@@ -241,31 +249,31 @@ Core.prototype.initialised = function() {
 
 
 	//Add the Proposals
-
 	for(var i = 0;i < propLoader.propArray.length; i++){
 			this.scene.add( propLoader.propArray[i] );
 	}
 
+	//add the locations pins
 	for(var i = 0;i < thatGeoComments.geoCommentArray.length; i++){
 			this.scene.add(thatGeoComments.geoCommentArray[i]);
 	}
 
 
+	//add objects to list for userinteraction
+	thatRay.addIntersectObjects(objLoad.objArray["obj"]);
 
-		thatRay.addIntersectObjects(objLoad.objArray["obj"]);
+	for(var i = 0; i < thatground.buildings.length;i++){
 
-		for(var i = 0; i < thatground.buildings.length;i++){
+				if( (thatground.buildings[i] instanceof geoObjectLoader) == true){
+	    		thatRay.addIntersectObject( thatground.buildings[i].object );
+	    	}
+	    	
+    }
 
-   				if( (thatground.buildings[i] instanceof geoObjectLoader) == true){
-		    		thatRay.addIntersectObject( thatground.buildings[i].object );
-		    	}
-		    	
-	    }
+	thatRay.addIntersectObjects(propLoader.propArray);
+	thatRay.addIntersectObjects(thatGeoComments.geoCommentArray);
 
-		thatRay.addIntersectObjects(propLoader.propArray);
-		thatRay.addIntersectObjects(thatGeoComments.geoCommentArray);
-
-		thatRay.addIntersectObjects([thatground.terrain.plane]);
+	thatRay.addIntersectObjects([thatground.terrain.plane]);
 
 
 	window.addEventListener( 'resize', onWindowResize, false );
@@ -291,7 +299,10 @@ Core.prototype.initialised = function() {
 	    thatRay.geoPositionHoverHandle(e);
 
 	}, false);
+
+	//add mousehandlers
 	this.renderer.domElement.addEventListener("mouseup", function(e){
+	    //on mouse click
 	    if(flag === 0){
 
 	    /*	for(var i = 0; i < thatground.city.length;i++){
@@ -328,11 +339,11 @@ Core.prototype.initialised = function() {
 */
 }
 
-
+//the renderer Funktion call druing the animations frame, it loops
 Core.prototype.render = function() {
 
 
-
+	//render the control and compass
 	thatControl.render();
 	motions.rendereCompass();
 
@@ -354,7 +365,7 @@ Core.prototype.render = function() {
 	thatTopMenuBar.rendere();
 
 
-
+	//multiply renderer to force objects in back or front 
 	this.renderer.render(this.hemiScene, thatControl.camera );
 
 	this.renderer.clearDepth();
@@ -374,6 +385,8 @@ Core.prototype.render = function() {
 
 }
 
+
+//transform the Lat/long to 3D world
 Core.prototype.scaleCoordToTerrain = function(pos, type){
 	var temPos = new THREE.Vector3();
 
@@ -404,6 +417,8 @@ Core.prototype.scaleCoordToTerrain = function(pos, type){
 
 	return temPos;
 }
+
+//scale the 3D coords. to lat/long
 Core.prototype.scaleTerrainTocoord = function(pos){
 	var temPos = new THREE.Vector3();
 
@@ -426,6 +441,7 @@ Core.prototype.scaleTerrainTocoord = function(pos){
 	return temPos;
 }
 
+//set the user
 Core.prototype.setUser = function(user){
 
 	thisCore.user = user;

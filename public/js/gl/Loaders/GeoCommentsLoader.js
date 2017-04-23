@@ -1,3 +1,6 @@
+/*
+*	manage the loading of location pins
+*/
 function GeoCommentsLoader (cb){
 	thatGeoComments = this;
 	this.geometry = new THREE.Geometry();
@@ -8,6 +11,7 @@ function GeoCommentsLoader (cb){
 	this.hoverMaterialColor = "rgb(153, 255, 255)";
 	this.pickedMaterialColor = "rgb(255,255,255)";
 
+	//load the location pin model
 	loader.load('../../storage/app/geoData/Objects/commentFlag01.dae',function(dae){
 
 		var obj = dae.scene;
@@ -47,6 +51,7 @@ function GeoCommentsLoader (cb){
 	})
 };
 
+//change location pin color on user select
 GeoCommentsLoader.prototype.renderHightlightGeoPosition = function(obj){
 
 	if( thatRay.pickedGeoObject == ""){
@@ -73,6 +78,7 @@ GeoCommentsLoader.prototype.renderHightlightGeoPosition = function(obj){
 
 }
 
+//add comments to scene on location pin select
 GeoCommentsLoader.prototype.addGeoCommentToScene = function(obj){
 
 	var wkt = new Wkt.Wkt();

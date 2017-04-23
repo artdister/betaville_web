@@ -1,3 +1,6 @@
+/*
+*	 manage the different model types for loading
+*/
 function LoadHelpers(){
 
 		loadToScene = this;
@@ -6,6 +9,7 @@ function LoadHelpers(){
 
 }
 
+//for json models
 LoadHelpers.prototype.JSON = function(objURL, objName, posVec, type){
 	var loader = new THREE.ObjectLoader();
 
@@ -21,7 +25,7 @@ LoadHelpers.prototype.JSON = function(objURL, objName, posVec, type){
 
 };
 
-
+//for collda models
 LoadHelpers.prototype.collada = function(objURL, objName, posVec, type){
 	loadToScene.loader = new THREE.ColladaLoader();
 	var jloader = new THREE.ObjectLoader();
@@ -41,6 +45,8 @@ LoadHelpers.prototype.collada = function(objURL, objName, posVec, type){
 	})
 
 };
+
+//check for double materials
 LoadHelpers.prototype.checkDoubleMats = function(mat){
 	var found = false;
 		if(this.objectsMat.length > 0){
@@ -60,6 +66,7 @@ LoadHelpers.prototype.checkDoubleMats = function(mat){
 }
 
 
+//place object to scene
 LoadHelpers.prototype.placeToScene = function(obj, name, pos, type){
 
 		var geometry = new THREE.Geometry();
@@ -75,7 +82,8 @@ LoadHelpers.prototype.placeToScene = function(obj, name, pos, type){
 				objElem.material.side = THREE.DoubleSide;
 
 				var mat = loadToScene.checkDoubleMats(objElem.material);
-	
+				
+				//merge multiply geometries to one
 				if(objElem.geometry.type == "BufferGeometry"){
 					var geometry2 = new THREE.Geometry().fromBufferGeometry( objElem.geometry );
 					geometry.merge(geometry2, objElem.matrix, mat );
@@ -98,12 +106,13 @@ LoadHelpers.prototype.placeToScene = function(obj, name, pos, type){
 		var material = new THREE.MultiMaterial(loadToScene.objectsMat);
 		var total = new THREE.Mesh(geometry, material);
 
-	
+		//scale the threejs obejct
 		total.applyMatrix(new THREE.Matrix4().makeScale(parseFloat(0.32),parseFloat(0.32),parseFloat(0.32) ))
 
 		total.position.x = pos.x;
 		total.position.z = pos.z;
 
+		//if model is from proposal claculating the hight
 		if(type == 'cityOBJ'){
 			total.position.y = pos.y;	
 		}else
@@ -118,11 +127,11 @@ LoadHelpers.prototype.placeToScene = function(obj, name, pos, type){
 
 		total.updateMatrix();
 		
-
+		//copy tempm object to array
 		objLoad.addProposalObj["obj"] = total.clone();
 
 
-
+		//create bounding boxes
 		var addproposalBBox =  new THREE.BoundingBoxHelper( objLoad.addProposalObj["obj"], 0xffcc00 );
 		addproposalBBox.name = name;
 
@@ -131,7 +140,7 @@ LoadHelpers.prototype.placeToScene = function(obj, name, pos, type){
 		objLoad.addProposalObj["bbox"].update();
 		objLoad.addProposalObj["type"] = "addedProposal";
 
-		
+		//add control to place th eobject on scene
 		thisCore.control.attach( objLoad.addProposalObj["obj"] );
 		thisCore.scene.add(thisCore.control);
 		thisCore.scene.add(objLoad.addProposalObj["obj"]);
@@ -139,7 +148,7 @@ LoadHelpers.prototype.placeToScene = function(obj, name, pos, type){
 		
 		
 
-
+		//set loaded flags to true
 		objLoad.proposalAddLoaded = true;
 		objLoad.proposalLoaded = true;
 

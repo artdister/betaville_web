@@ -31,7 +31,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
     
-
+    //return the actuall user role
     public static function getRole(){
 
         

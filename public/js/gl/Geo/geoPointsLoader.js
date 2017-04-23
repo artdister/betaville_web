@@ -1,3 +1,6 @@
+/*
+*	manage the gis points to load objects on it
+*/
 function geoPointsLoader(data = false){
 
 	this.loader = new THREE.ColladaLoader();
@@ -33,15 +36,14 @@ function geoPointsLoader(data = false){
 
 }
 
+//call multiply times to load all models first
 geoPointsLoader.prototype.prepareObjLoad = function(json){
 	if(typeof(json) == 'object'){
 
 		thatPointsLoader.json = json;
 
 	}
-
 	var key = thatPointsLoader.objLoadKeyArry[thatPointsLoader.objLoadKeyIndex];
-
 
 
 	if(thatPointsLoader.objLoadKeyIndex < thatPointsLoader.objLoadKeyArry.length){
@@ -50,7 +52,7 @@ geoPointsLoader.prototype.prepareObjLoad = function(json){
 		thatPointsLoader.loadObjs(key, thatPointsLoader.prepareObjLoad );
 
 	}else{
-
+ 		//if all modesl loaded
 		thatPointsLoader.load(thatPointsLoader.json, preLoad.loadDataSet);
 
 	}
@@ -58,7 +60,7 @@ geoPointsLoader.prototype.prepareObjLoad = function(json){
 	thatPointsLoader.objLoadKeyIndex++;
 };
 
-
+//check for double materials
 geoPointsLoader.prototype.checkDoubleMats = function(mat, oM){
 	var found = false;
 		if(oM.length > 0){
@@ -78,6 +80,7 @@ geoPointsLoader.prototype.checkDoubleMats = function(mat, oM){
 		return oM.length-1;
 };
 
+//load the collada models and push it to an array
 geoPointsLoader.prototype.loadObjs = function(key, cb){
 
 		
@@ -91,7 +94,7 @@ geoPointsLoader.prototype.loadObjs = function(key, cb){
 							key : key
 						}; 
 
-				
+						
 						col.scene.traverse(function(elem){
 
 							if(elem instanceof THREE.Mesh){
@@ -106,8 +109,6 @@ geoPointsLoader.prototype.loadObjs = function(key, cb){
 
 						});
 
-						//out.geom.center();
-					
 						thatPointsLoader.objArray.push(out);
 
 						cb();
@@ -121,38 +122,40 @@ geoPointsLoader.prototype.loadObjs = function(key, cb){
 
 };
 
+//load the gis point json adn create a threejs obejct
 geoPointsLoader.prototype.load = function(json, loadded){
 	//console.log(this.key, this.data);
-	//console.log(json);
+	console.log(json);
 	//console.log(thatPointsLoader.colObjsMuster, this.keyWord);
 	var matsOut = new Array();
-	//
+	//for all gis points
 	for(var i = 0; i < json.features.length;i++){
 
 		var pos = json.features[i].geometry.coordinates;
 		var type = json.features[i].properties[this.keyWord];
 
-		
+		//for all loaded models
 		for(var j = 0; j < thatPointsLoader.objArray.length; j++){
 
-		
+			//if the key hits the gis type
 			if(thatPointsLoader.objArray[j].key == type){
 				
 				var geom = new THREE.Geometry();
 				
-
+				//for all points from these gis type
 				for(var o = 0; o < thatPointsLoader.objArray[j].obj.length; o++ ){
 
-
+						//get object copy 
 						var objElem = thatPointsLoader.objArray[j].obj[o].clone();
 
 
 						objElem.material.fog = false;
 						objElem.material.side = THREE.DoubleSide;
 
+						//look for double materials
 						var mat = thatPointsLoader.checkDoubleMats(objElem.material, matsOut);
 					
-						
+						//look for geometry types and merge it
 						if(objElem.geometry.type == "BufferGeometry"){
 							var geometry2 = new THREE.Geometry().fromBufferGeometry( objElem.geometry );
 							geom.merge(geometry2, objElem.matrix, mat );
@@ -181,17 +184,19 @@ geoPointsLoader.prototype.load = function(json, loadded){
 				pos[2],
 				pos[1]) ;
 
+				//convert lat/long to 3D world coords.
 				var newPos = thisCore.scaleCoordToTerrain( coord , "x/z" );
 
+				//set the model scale
 				var scale = thatPointsLoader.data[type].scale;
 				geom.applyMatrix(new THREE.Matrix4().makeScale(scale, scale, scale ));
 
-				//geom.center();
-
+			
+				//move geometry to the right positions
 				var firstP = geom.vertices[0];
 				geom.applyMatrix(new THREE.Matrix4().makeTranslation(newPos.x-firstP.x, newPos.y,newPos.z-firstP.z));
 
-
+				//merge geometries
 				thatPointsLoader.mainGeometry.merge(geom.clone());
 
 
@@ -206,6 +211,7 @@ geoPointsLoader.prototype.load = function(json, loadded){
 
 
 	}
+	//merge materials
 	for(var i = 0; i < matsOut.length;i++){
 		thatPointsLoader.mainMaterials.push(matsOut[i]);
 
@@ -216,7 +222,7 @@ geoPointsLoader.prototype.load = function(json, loadded){
 	loadded();
 };
 
-
+//create threejs mesh from geometries and materials
 geoPointsLoader.prototype.createMesh = function(){
 
 				

@@ -1,3 +1,6 @@
+/*
+*	manage the object loading, specially for buildings
+*/
 function ObjectLoader(){
 	objLoad = this;
 
@@ -33,10 +36,10 @@ function ObjectLoader(){
 
 
 }
-
+//load a single object and save it to a array
 ObjectLoader.prototype.loadObj = function(obj, cb){
 
-
+		//load the zip file
 		JSZipUtils.getBinaryContent('../../storage/app/'+obj.url, function(err, data) { 
 									if(err) {
 										throw err; // or handle err
@@ -65,9 +68,10 @@ ObjectLoader.prototype.loadObj = function(obj, cb){
 		
 }
 
+//load a single proposal model 
 ObjectLoader.prototype.loadProposal = function(obj){
 
-
+		//look for buildings to hide
 		if(obj.hiddenbuildings.length > 0){
 			for(var i = 0; i < obj.hiddenbuildings.length;i++){
 				this.hideListCheckedfromID(obj.hiddenbuildings[i]);
@@ -75,7 +79,7 @@ ObjectLoader.prototype.loadProposal = function(obj){
 			}
 	
 		}
-
+		//look for vector buildings to hide
 		if(obj.hiddenbuildingsLow.length > 0){
 			for(var i = 0; i < obj.hiddenbuildingsLow.length;i++){
 
@@ -95,7 +99,7 @@ ObjectLoader.prototype.loadProposal = function(obj){
 	
 		}
 
-
+		//load the zip file
 		JSZipUtils.getBinaryContent('../../storage/app/'+obj.url, function(err, data) { 
 									if(err) {
 										throw err; // or handle err
@@ -112,7 +116,8 @@ ObjectLoader.prototype.loadProposal = function(obj){
 		objLoad.addProposalObj["bbox"] = bbox;
 		objLoad.addProposalObj["type"] = "pickedProposal";
 */
-
+		
+		//create bounding box for the loaded object
 		var addproposalBBox =  new THREE.BoundingBoxHelper( objLoad.proposalObj['obj'][objLoad.proposalObj['obj'].length-1], 0xffcc00 );
 
 
@@ -126,7 +131,8 @@ ObjectLoader.prototype.loadProposal = function(obj){
 		thisCore.scene.add(objLoad.proposalObj["bbox"][objLoad.proposalObj["bbox"].length-1]);
 		thisCore.scene.add(objLoad.proposalObj['obj'][objLoad.proposalObj['obj'].length-1]);
 		//objLoad.proposalLoaded = true;
-	
+		
+		//add to interact list
 		thatRay.addIntersectObject(objLoad.proposalObj['obj'][objLoad.proposalObj['obj'].length-1]);
 		thatGUI.proposalSec.loadProposalComments(objLoad.proposalObj['obj'][objLoad.proposalObj['obj'].length-1]);
 	
@@ -135,6 +141,8 @@ ObjectLoader.prototype.loadProposal = function(obj){
 
 
 }
+
+//check for double materials
 ObjectLoader.prototype.checkDoubleMats = function(mat){
 	var found = false;
 		if(this.objectsMat.length > 0){
@@ -153,28 +161,29 @@ ObjectLoader.prototype.checkDoubleMats = function(mat){
 		return this.objectsMat.length-1;
 }
 
-
+// create threejs object from zip file
 ObjectLoader.prototype.objToScene = function(data, obj){
 
 
-
+			//get the file name from the modesl path
 			var spliturl = obj.url.split(".");
 			var filetype = spliturl[spliturl.length-1];
 			var filename = spliturl[0].split("/")[spliturl[0].split("/").length-2];
 
-
+			//convert WKT to js object
 			var wkt = new Wkt.Wkt();
 			var latlng = wkt.read(obj.position);
 
-			//obj.position.coordinates
+			//transform lat/long to 3D scene coords.
 			var pos = new THREE.Vector3(latlng.components[0].x, 0 , latlng.components[0].y);
 			var newPos = thisCore.scaleCoordToTerrain(pos,"x/z");
 
 
 			var mats = new Array();
+			//unzip the file
 			var zip = new JSZip(data);
 			var geometry = new THREE.Geometry();
-		
+
 			var objData = zip.file(filename+".json").asText();
 			//var mtlData = zip.file("office-building_01.mtl").asText();
 			var jdata = JSON.parse(objData);
@@ -196,7 +205,7 @@ ObjectLoader.prototype.objToScene = function(data, obj){
 
 					var mat = objLoad.checkDoubleMats(objElem.material);
 		
-					
+					//merge multiply geometries to one
 					if(objElem.geometry.type == "BufferGeometry"){
 						var geometry2 = new THREE.Geometry().fromBufferGeometry( objElem.geometry );
 						geometry.merge(geometry2, objElem.matrix, mat );
@@ -225,14 +234,14 @@ ObjectLoader.prototype.objToScene = function(data, obj){
 	    side:THREE.DoubleSide
 	} );
 */
-	
+			//create mesh from geometry and material list
 			var total = new THREE.Mesh(geometry, material);
 			total.castShadow = true;
 			total.receiveShadow = true;
 
 			var tempGeom = geometry.clone();
 	
-						
+			//scale the model
 			total.applyMatrix(new THREE.Matrix4().makeScale(parseFloat(obj.scale),parseFloat(obj.scale),parseFloat(obj.scale) ));
 			tempGeom.applyMatrix(new THREE.Matrix4().makeScale(parseFloat(obj.scale),parseFloat(obj.scale),parseFloat(obj.scale) ));
 					
@@ -244,7 +253,7 @@ ObjectLoader.prototype.objToScene = function(data, obj){
 
 		*/	
 
-
+			//rotate the object
 			var euler = new THREE.Euler( obj.rotation[0], obj.rotation[1], obj.rotation[2], 'XYZ' );
 			total.applyMatrix(new THREE.Matrix4().makeRotationFromEuler(euler));
 			tempGeom.applyMatrix(new THREE.Matrix4().makeRotationFromEuler(euler));	
@@ -261,7 +270,7 @@ ObjectLoader.prototype.objToScene = function(data, obj){
 
 			
 
-
+			//translate the object
 			total.applyMatrix(new THREE.Matrix4().makeTranslation(newPos.x, parseFloat(obj.atli),newPos.z));	
 			tempGeom.applyMatrix(new THREE.Matrix4().makeTranslation(newPos.x, parseFloat(obj.atli),newPos.z));
 		
@@ -278,7 +287,7 @@ ObjectLoader.prototype.objToScene = function(data, obj){
 			}else{
 				var hiddenLow = [];
 			}
-
+			//fill objects userData
   			total.name = obj.name;
   			total.userData = { 
   					'id':obj.id,
@@ -315,7 +324,7 @@ ObjectLoader.prototype.objToScene = function(data, obj){
 
 
 
-
+//add last uploaded element to scene
 ObjectLoader.prototype.addLastElemToscene = function(){
 	thatGUI.proposalSec.removeAddedObject(objLoad.addProposalObj["obj"],objLoad.addProposalObj['bbox']);
 	thisCore.scene.add(objLoad.objArray["obj"][objLoad.objArray["obj"].length-1]);
@@ -323,6 +332,7 @@ ObjectLoader.prototype.addLastElemToscene = function(){
 	
 }
 
+//show hiden objects vis ID
 ObjectLoader.prototype.showObjs = function(ids){
 
 
@@ -374,6 +384,7 @@ ObjectLoader.prototype.showObjs = function(ids){
 */
 }
 
+//hide objects via ID
 ObjectLoader.prototype.hideListCheckedfromID = function(id){
 
 	for(var i = 0; i < this.objArray["obj"].length;i++){
@@ -415,6 +426,7 @@ ObjectLoader.prototype.hideListCheckedfromID = function(id){
 */
 }
 
+//show all hidden objects
 ObjectLoader.prototype.showAll = function(){
 	for(var i = 0; i < this.objArray["obj"].length;i++){
 		this.objArray['obj'][i].visible = true;

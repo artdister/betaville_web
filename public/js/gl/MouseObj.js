@@ -1,3 +1,6 @@
+/*
+*	mange the mouse on the scene for interactions
+*/
 function MouseObj(){
 	
 	this.pos = new THREE.Vector3(0,0,0);
@@ -12,6 +15,8 @@ function MouseObj(){
 
 
 }
+
+//call mouse click
 MouseObj.prototype.mouseClick = function(event, flag){
 	if(event.button == 0){
   		this.button = "left";
@@ -23,6 +28,7 @@ MouseObj.prototype.mouseClick = function(event, flag){
 	thisCore.mouse.userHasClicked = true;
 }
 
+//call on mosue move
 MouseObj.prototype.mouseMove = function(event){
 
 	var gldiv = document.getElementById('glDIV');
@@ -35,6 +41,7 @@ MouseObj.prototype.mouseMove = function(event){
 	
 };
 
+//renderer function for the mouse
 MouseObj.prototype.render = function(){
 
 	this.raycaster.setFromCamera(this.pos.clone(), thatControl.camera);

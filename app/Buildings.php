@@ -45,29 +45,39 @@ class Buildings extends Model
      * @return array
      */
 
-
+    //set the rotation, added via laravel-postgres module
     public function setRotation(array $value)
     {
         $this->rotation = self::mutateToPgArray($value);
     }
+
+    //get the rotation, added via laravel-postgres module
     public function getRotation()
     {
         return self::accessPgArray($this->rotation);
     }
 
+
+    //set the Quaternion, added via laravel-postgres module
     public function setQuaternion(array $value)
     {
         $this->quaternion = self::mutateToPgArray($value);
     }
+
+    //get the Quaternion, added via laravel-postgres module
     public function getQuaternion()
     {
         return self::accessPgArray($this->quaternion);
     }
 
+
+    //set the objects to hide, added via laravel-postgres module
     public function sethiddenObj(array $value)
     {
         $this->hiddenBuildData = self::mutateToPgArray($value);
     }
+
+    //get the objects to hide, added via laravel-postgres module
     public function gethiddenObj()
     {
         return self::accessPgArray($this->hiddenBuildData);

@@ -1,3 +1,6 @@
+/*
+*	manage the gis polygones and create low def. buildings
+*/
 function geoObjectLoader(){
 
 	this.loadedObjs = new Array();
@@ -21,6 +24,7 @@ function geoObjectLoader(){
 	this.selColor = 0xFFFF00;
 }
 
+//load from geojson
 geoObjectLoader.prototype.loadJSON = function(elem, id){
 
 	this.loadingObj = {
@@ -55,7 +59,7 @@ geoObjectLoader.prototype.loadJSON = function(elem, id){
 
 
 }
-
+//load polygons from DB
 geoObjectLoader.prototype.loadFromDB = function(geom, data, height){
 
 
@@ -172,7 +176,7 @@ geoObjectLoader.prototype.createMeshFromMainGeom = function(){
 }
 geoObjectLoader.prototype.getPrtsArray = function(c ,prts){
 
-
+		//c= aktueller punkt , prts = array vorhandener punkte
 
 	if(c != null){
 
@@ -270,6 +274,7 @@ geoObjectLoader.prototype.mergePrtsToGeom = function( prts, bhight){
 
 }
 
+//create mesh from json vector data
 geoObjectLoader.prototype.loadBuilddingsFromJSON = function(json, cb, calcHeights = false){
 	var mainGeom = new THREE.Geometry();
 	var faceRun = 0;
@@ -277,10 +282,10 @@ geoObjectLoader.prototype.loadBuilddingsFromJSON = function(json, cb, calcHeight
 	for(var e = 0; e < json.features.length;e++){
 		var elem = json.features[e];
 
-
+		//if properties.heigh is defined else set to 1
 		var bhight = (elem.properties.height == null ? bhight = 1 : -elem.properties.height*10 );
 
-		
+		//if high def. buildings available, look for low def. buildings to hide
 		if(loadingData['models']){
 			if(loadingData['models']['buildings']){
 				
@@ -299,7 +304,7 @@ geoObjectLoader.prototype.loadBuilddingsFromJSON = function(json, cb, calcHeight
 			}
 		}
 
-
+		//convert GIS vectors to threejs objects
 		if(elem.geometry != null){
 			if(elem.geometry.type == 'Polygon' || elem.geometry.type == 'MultiPolygon'){
 				
@@ -310,12 +315,11 @@ geoObjectLoader.prototype.loadBuilddingsFromJSON = function(json, cb, calcHeight
 
 						var prts = this.getPrtsArray(elem.geometry.coordinates[i], prts);
 						
-						
 						var geometry = this.mergePrtsToGeom(prts, bhight);
 
 					}
 
-
+					//if properties.Z is defined else get the center and calculate the hight by def false and set to 100
 					if(elem.properties.Z){
 						geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, elem.properties.Z*10, 0));
 					}else{
@@ -356,10 +360,10 @@ geoObjectLoader.prototype.loadBuilddingsFromJSON = function(json, cb, calcHeight
 						}	
 				
 					
-
+					//merge temp geometry with main geometry
 					mainGeom.merge(geometry.clone());
 
-
+					//create a new objectFaces object
 					faces = new this.objectFaces();
 					faces.min = faceRun;
 					faceRun += geometry.faces.length;
@@ -385,7 +389,7 @@ geoObjectLoader.prototype.loadBuilddingsFromJSON = function(json, cb, calcHeight
 
 
 
-
+	//create material
 	var material = new THREE.MeshLambertMaterial( {
 	    vertexColors: THREE.VertexColors,
 	    lights: true,
@@ -395,7 +399,7 @@ geoObjectLoader.prototype.loadBuilddingsFromJSON = function(json, cb, calcHeight
 	} );
 
 
-
+	//create mesh
 	this.object = new THREE.Mesh( mainGeom,  material  );
 	this.object.name = "buildingsLow:";
 	if( this.loadingObj.construct == true ){
@@ -403,6 +407,8 @@ geoObjectLoader.prototype.loadBuilddingsFromJSON = function(json, cb, calcHeight
 			id: this.loadingObj.id
 		};
 	}
+
+	//shadow setup
 	this.object.castShadow = true;
 	this.object.receiveShadow = true;
 
@@ -412,7 +418,7 @@ geoObjectLoader.prototype.loadBuilddingsFromJSON = function(json, cb, calcHeight
 
 	this.mainPrts = new Array();;
 
-
+	//if callback is a function run it, else add object to scene
 	if(typeof(cb) == 'function' ){
 		cb();
 	}else{
@@ -422,7 +428,7 @@ geoObjectLoader.prototype.loadBuilddingsFromJSON = function(json, cb, calcHeight
 
 }
 
-
+//set the userData in the obejctFace
 geoObjectLoader.prototype.setDataObject = function(options){
 
 	var out = new Array();
@@ -443,6 +449,8 @@ geoObjectLoader.prototype.setDataObject = function(options){
 
 	return out
 }
+
+//remove the building from scene 
 geoObjectLoader.prototype.removeObjById = function(id){
 
 	for(var i = 0; i < this.loadedObjs.length; i++){
@@ -456,6 +464,7 @@ geoObjectLoader.prototype.removeObjById = function(id){
 	}
 }
 
+//handle onclick actions, change color of a picked object
 geoObjectLoader.prototype.onclickAction = function(i, button){
 
 	var intersects = i;
@@ -519,7 +528,7 @@ geoObjectLoader.prototype.onclickAction = function(i, button){
 	}
 
 }
-
+//restore the default objects color
 geoObjectLoader.prototype.deselectObj = function(){
 
 		if(this.selected != ""){
@@ -541,7 +550,7 @@ geoObjectLoader.prototype.deselectObj = function(){
 
 	}
 }
-
+//add objects to the 'hide' list
 geoObjectLoader.prototype.hideBuildings = function(obj, button){
 
 	var intersects = obj;
@@ -573,6 +582,7 @@ geoObjectLoader.prototype.hideBuildings = function(obj, button){
 
 		}
 
+		//move the selected geometry far up
 		var h = this.objArray[i].height;
 		for(var j = this.objArray[i].min; j < this.objArray[i].max ; j++){
 
@@ -602,6 +612,8 @@ geoObjectLoader.prototype.hideBuildings = function(obj, button){
 	
 
 }
+
+//hide high def. building
 geoObjectLoader.prototype.hideBuildngById = function(id){
 
 			for(var j = 0; j < this.objArray.length; j++){
@@ -632,6 +644,8 @@ geoObjectLoader.prototype.hideBuildngById = function(id){
 			}
 
 }
+
+//restor hidden building
 geoObjectLoader.prototype.showBuildingById = function(id){
 
 	for(var j = 0; j < this.objArray.length; j++){
@@ -661,6 +675,8 @@ geoObjectLoader.prototype.showBuildingById = function(id){
 
 			}
 }
+
+//restore hiden buildings
 geoObjectLoader.prototype.showBuilding = function(id){
 
 	//console.log("here we must rise "+id);
@@ -710,6 +726,8 @@ geoObjectLoader.prototype.showBuilding = function(id){
 
 
 }
+
+//remove restored building from hide list
 geoObjectLoader.prototype.removeFromULLIst = function(id){
 
 	var index = this.hideList.indexOf(id);

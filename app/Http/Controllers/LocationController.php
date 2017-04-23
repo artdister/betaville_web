@@ -14,6 +14,7 @@ use App\Repositories\LocationRepository;
 
 use GeoIP;
 
+//Class to manage locations objects
 class LocationController extends Controller
 {
 
@@ -25,7 +26,7 @@ class LocationController extends Controller
 
     }
 
-
+    //get the location from user IP
     public function getTimeLocation()
     {
         $ip = new Request;
@@ -33,6 +34,7 @@ class LocationController extends Controller
         return $location;
     }
 
+    //get the vector locations
     public function getCitySections(Request $r)
     {
     	$out = $this->locations->getLocationsByCityID($r->id);

@@ -1,3 +1,6 @@
+/*
+*	Rayçaster are for selection objects on userinteract
+*/
 function Raycaster(){
 	thatRay = this;
 	this.geoClickPosMarker;
@@ -22,20 +25,27 @@ function Raycaster(){
 	this.mV = new THREE.Vector3();
 }
 
+//add objects to list for interact
 Raycaster.prototype.addIntersectObjects = function(array){
 
 
 	thatRay.interObjectsArray.push.apply(thatRay.interObjectsArray, array);
 
 }
+
+//clear the interact list
 Raycaster.prototype.clearIntersectObjects= function(){
 	thatRay.interObjectsArray = new Array();
 }
+
+//add one object to the interact list
 Raycaster.prototype.addIntersectObject = function(obj){
 
 	thatRay.interObjectsArray.push(obj);
 
 }
+
+//call on user iteract to define the users selection
 Raycaster.prototype.onclickAction = function(event, flag, camera){
 
 
@@ -45,6 +55,7 @@ Raycaster.prototype.onclickAction = function(event, flag, camera){
 
     var intersects = thisCore.mouse.raycaster.intersectObjects(this.interObjectsArray);
 	if(intersects.length > 0){
+		console.log(intersects);
 		group = intersects[0].object.name.split(":");
 
 		if(
@@ -118,6 +129,8 @@ Raycaster.prototype.onclickAction = function(event, flag, camera){
 		this.bbHelper.update();
 	}
 }
+
+//open the GUI for selected object
 Raycaster.prototype.showGUI = function(gui, obj, type){
 
 
@@ -168,7 +181,7 @@ Raycaster.prototype.showGUI = function(gui, obj, type){
 }
 
 
-
+//hide the GUI
 Raycaster.prototype.hideGUI = function(o){
 
 	for(var i = 0; i < o.length; i++){
@@ -210,7 +223,7 @@ Raycaster.prototype.hideGUI = function(o){
 }
 
 
-
+//opens on userinteract with buildings
 Raycaster.prototype.cityObjPicked = function(s, obj){
 
 		if(s == "on"){
@@ -261,6 +274,7 @@ Raycaster.prototype.cityObjPicked = function(s, obj){
 		}
 }
 
+//opens on userinteract with proposals
 Raycaster.prototype.proposalPick = function(s ,obj){
 	
 	if(s == "on"){
@@ -307,6 +321,8 @@ Raycaster.prototype.proposalPick = function(s ,obj){
 	}
 
 }
+
+//opens on userinteract with proposals buildings
 Raycaster.prototype.proposalsObjPick = function(s, obj){
 	if(s == 'on'){
 		if(thatRay.bbHelper == "undefined"){
@@ -353,6 +369,8 @@ Raycaster.prototype.proposalsObjPick = function(s, obj){
 	}
 
 }
+
+//opens on userinteract with locations pins
 Raycaster.prototype.geoPositionPicked = function(s, obj){
 	if(s == "on"){
 		//thatGUI._guiIsOpen = 'GeoPosition';
@@ -396,7 +414,7 @@ Raycaster.prototype.geoPositionPicked = function(s, obj){
 }
 
 
-
+//opens on userinteract with terrian
 Raycaster.prototype.lineObjPick = function(s ,obj){
 		
 	if(s == "on"){
@@ -420,6 +438,8 @@ Raycaster.prototype.lineObjPick = function(s ,obj){
 
 	}
 }
+
+//functions for mosue hover proposals
 Raycaster.prototype.proposalHoverHandle = function(event){
 
 	var intersectsPropo = thisCore.mouse.raycaster.intersectObjects(propLoader.propArray);
@@ -433,6 +453,7 @@ Raycaster.prototype.proposalHoverHandle = function(event){
 
 };
 
+//functions for mosue hover locations pins
 Raycaster.prototype.geoPositionHoverHandle = function(event){
 
 	var intersectsGeoPos = thisCore.mouse.raycaster.intersectObjects(thatGeoComments.geoCommentArray);

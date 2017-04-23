@@ -1,3 +1,6 @@
+/*
+* manage the gis stats
+*/
 function geoStatsLoader(){
 	
 
@@ -28,6 +31,8 @@ function geoStatsLoader(){
 	this.createMeta();
 
 }
+
+//load gis from json
 geoStatsLoader.prototype.loadJSON = function(elem){
 
 	this.loadingObj = {
@@ -35,9 +40,9 @@ geoStatsLoader.prototype.loadJSON = function(elem){
 		'length' : preLoad.onLoadDataSet.dataStats[elem.getAttribute('idint')].length
 
 	}
-
 	var data = preLoad.onLoadDataSet.dataStats[elem.getAttribute('idint')];
-	
+
+	//display loading screen
 	thisCore.loadScreen.showLoading();
 	ajax.get('../../storage/app/'+data.src,
 		'json',
@@ -51,7 +56,7 @@ geoStatsLoader.prototype.loadJSON = function(elem){
 
 		
 				var state = json.features[i];
-	
+				
 				thatground.stats.createStatsGeometry(state, data, i);
 				//thatground.stats.createStatsGeometry(state.geometry, 'lines');
 				thatground.stats.addState(state.properties, data, i);
@@ -84,7 +89,7 @@ geoStatsLoader.prototype.loadJSON = function(elem){
 
 
 }
-
+//create the stats obejct for every geojson list entry
 geoStatsLoader.prototype.createStatsGeometry = function(elem, data, elemID){
 	//var json = JSON.parse(elem.geom);
 	var json = elem;
@@ -178,6 +183,8 @@ geoStatsLoader.prototype.createStatsGeometry = function(elem, data, elemID){
 
 
 }
+
+//add the states to the scene
 geoStatsLoader.prototype.addState = function(elem, data, id){
 
 	var location = this.statsObjs['center'][this.statsObjs['center'].length-1];
@@ -252,9 +259,7 @@ geoStatsLoader.prototype.addState = function(elem, data, id){
 
 }
 
-
-
-
+//remove stats objects from the scene
 geoStatsLoader.prototype.removeStats = function(){
 
 	this.statsOnScene = false;
@@ -294,7 +299,7 @@ geoStatsLoader.prototype.removeStats = function(){
 
 
 
-
+//create bounding lines to dispaly stats
 geoStatsLoader.prototype.createLines = function(shape){
 		shape.autoClose = false;
 
@@ -310,6 +315,8 @@ geoStatsLoader.prototype.createLines = function(shape){
 		return mesh;
 				
 }
+
+//create bounding area to display stats
 geoStatsLoader.prototype.createArea = function(shape){
 
 		var geometry = new THREE.ExtrudeGeometry( shape, this.extrudeSettings  );
@@ -329,6 +336,7 @@ geoStatsLoader.prototype.createArea = function(shape){
 				
 }
 
+//handle the user input
 geoStatsLoader.prototype.onclickAction = function(event,flag){
 
 
@@ -385,6 +393,8 @@ geoStatsLoader.prototype.onclickAction = function(event,flag){
 	}
 
 }
+
+//highlight stats
 geoStatsLoader.prototype.hightlightObj = function(obj){
 
 	obj.material.color = new THREE.Color(this.selectColor);	
@@ -397,12 +407,12 @@ geoStatsLoader.prototype.hightlightObj = function(obj){
 	obj.translateY(100);
 */
 }
+
+//disable highlight
 geoStatsLoader.prototype.unhightlightObj = function(obj){
 	
 	this.metaDiv.style.display = 'none';
 
-console.log(obj);
-	
 
 	for(var i = 0; i < obj.length;i++){
 		obj[i].material.color = new THREE.Color(obj[i].userData.color);
@@ -421,7 +431,7 @@ console.log(obj);
 }
 
 
-
+//create meta information
 geoStatsLoader.prototype.createMeta = function(){
 
 	this.metaDiv = document.createElement('div');
@@ -446,6 +456,7 @@ geoStatsLoader.prototype.createMeta = function(){
 
 }
 
+//diplay meta information
 geoStatsLoader.prototype.updateMeta = function(elem){
 
 	for(var i = 0; i < this.metaDiv.children[0].children.length;i++){

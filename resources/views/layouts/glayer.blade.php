@@ -156,7 +156,7 @@
 
 	var loadingData = JSON.parse(<?php echo json_encode($data) ?>);
 	var worldScale = 27;
-
+	console.log(loadingData);
 	loadingData['city'] = JSON.parse( loadingData['city'] )[0];
 	loadingData['user'] = JSON.parse( loadingData['user'] );
 	loadingData['loadData'] = JSON.parse( loadingData['loadData']);
@@ -213,7 +213,7 @@
 function animate(time) {
 
 	requestAnimationFrame( animate );
-
+	thatControl.render();
 	thisCore.render();
 	//TWEEN.update(time);
 
