@@ -71,7 +71,7 @@ class ProposalsController extends Controller
 			$preImg = $request->file('fileIMG');
 
 			//create files
-			$fileSRC = $parthTOsave.$Request->name.$request->objlength.'.zip';
+			$fileSRC = $parthTOsave.$request->name.$request->objlength.'.zip';
 			$preImgSRC = $parthTOsave.$request->name.$request->objlength.'.jpg';
 			
 			//save files
